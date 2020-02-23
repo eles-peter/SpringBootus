@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<AnchorPane fx:id="createClassMainPane" prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="creator.CreateClassStageController">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" text="Class Name: " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="19.0" />
+      <TextField fx:id="classNameInput" alignment="CENTER_RIGHT" layoutX="82.0" layoutY="10.0" prefHeight="26.0" prefWidth="196.0" promptText="Class Name" AnchorPane.topAnchor="15.0" />
+      <Button fx:id="addNewFieldLineButton" layoutX="660.0" layoutY="10.0" mnemonicParsing="false" onAction="#addNewFieldLine" text="Add new Field Line" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0" />
+      <Button fx:id="okAddButton" layoutX="725.0" layoutY="461.0" mnemonicParsing="false" onAction="#okAdd" text="OK / Add" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" />
+      <Button layoutX="661.0" layoutY="460.0" mnemonicParsing="false" onAction="#closeWindow" text="Cancel" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="90.0" />
+      <ScrollPane fx:id="fieldsScrollPane" hbarPolicy="NEVER" layoutX="14.0" layoutY="85.0" prefHeight="359.0" prefWidth="875.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <content>
+            <FlowPane fx:id="fieldsFlowPane" prefHeight="372.0" prefWidth="860.0">
+               <children>
+<!--                  <HBox fx:id="fieldsBHox" alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="860.0" spacing="8.0">-->
+<!--                     <padding>-->
+<!--                        <Insets left="5.0" right="5.0" />-->
+<!--                     </padding>-->
+<!--                     <children>-->
+<!--                        <TextField fx:id="fieldNameInput" prefWidth="180.0" promptText="Field Name" />-->
+<!--                        <CheckBox fx:id="isListCheckBox" mnemonicParsing="false" />-->
+<!--                        <ChoiceBox fx:id="fieldTypeInput" prefWidth="100.0" />-->
+<!--                        <TextField prefWidth="180.0" promptText="other Class / Enum Name" />-->
+<!--                        <CheckBox fx:id="isManyCheckBox" mnemonicParsing="false" />-->
+<!--                        <TextField fx:id="isManyFieldInput" prefWidth="180.0" promptText="Field Name in other Class" />-->
+<!--                        <CheckBox fx:id="isCreateItemCheckBox" mnemonicParsing="false" />-->
+<!--                        <Separator orientation="VERTICAL" prefHeight="200.0" />-->
+<!--                        <CheckBox fx:id="isDetailItemCheckBox" mnemonicParsing="false" />-->
+<!--                        <Separator orientation="VERTICAL" prefHeight="200.0" />-->
+<!--                        <CheckBox fx:id="isListItemCheckBox" mnemonicParsing="false" />-->
+<!--                        <Separator orientation="VERTICAL" prefHeight="200.0" />-->
+<!--                        <CheckBox fx:id="isShortListItemCheckBox" mnemonicParsing="false" />-->
+<!--                     </children>-->
+<!--                  </HBox>-->
+               </children>
+            </FlowPane>
+         </content>
+      </ScrollPane>
+      <Label layoutX="233.0" layoutY="67.0" text="Field Type" />
+      <Label layoutX="201.0" layoutY="67.0" text="List" textAlignment="CENTER" />
+      <Label layoutX="14.0" layoutY="67.0" text="(lowerCaseLetter!)" />
+      <Label layoutX="378.0" layoutY="67.0" text="(Capital!)" />
+      <Label layoutX="507.0" layoutY="67.0" text="toMany" />
+      <Label layoutX="594.0" layoutY="67.0" text="(&quot;mapped by&quot;)" textAlignment="CENTER" />
+      <Label layoutX="733.0" layoutY="67.0" text="CI*" textAlignment="CENTER" />
+      <Label layoutX="771.0" layoutY="67.0" text="DI*" textAlignment="CENTER" />
+      <Label layoutX="812.0" layoutY="67.0" text="LI*" textAlignment="CENTER" />
+      <Label layoutX="848.0" layoutY="67.0" text="SLI*" textAlignment="CENTER" />
+      <Label layoutX="10.0" layoutY="464.0" text="* CI: CreateItem, DI: DetailItem, LI: ListItem, SLI: ShortListItem (OptionList)" />
+      <Label layoutX="556.0" layoutY="53.0" text="Field Name in the other Class" />
+      <Label layoutX="335.0" layoutY="53.0" text="other Class / Enum Name" />
+      <Label layoutX="14.0" layoutY="53.0" text="Field name" />
+   </children>
+</AnchorPane>
