@@ -38,6 +38,20 @@ public class DBClassField {
         this.isShortListItem = isShortListItem;
     }
 
+    public DBClassField(DBClassField dbClassField) {
+        this.name = dbClassField.getName();
+        this.type = dbClassField.getType();
+        this.otherClassName = dbClassField.getOtherClassName();
+        this.enumName = dbClassField.getEnumName();
+        this.isList = dbClassField.isList();
+        this.isMany = dbClassField.isMany();
+        this.isManyField = dbClassField.getIsManyField();
+        this.isCreateItem = dbClassField.isCreateItem();
+        this.isDetailItem = dbClassField.isDetailItem();
+        this.isListItem = dbClassField.isListItem();
+        this.isShortListItem = dbClassField.isShortListItem();
+    }
+
     public String getName() {
         return name;
     }

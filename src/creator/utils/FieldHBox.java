@@ -37,13 +37,10 @@ public class FieldHBox extends HBox {
         isManyFieldInput.setPrefWidth(180.0);
         isManyFieldInput.setPromptText("Field Name in other Class");
         isManyFieldInput.setDisable(true);
-        isCreateItemCheckBox.setSelected(true);
         Separator separator1 = new Separator();
         separator1.setStyle(" -fx-orientation: VERTICAL; -fx-pref-height: 50.0;");
-        isDetailItemCheckBox.setSelected(true);
         Separator separator2 = new Separator();
         separator2.setStyle(" -fx-orientation: VERTICAL; -fx-pref-height: 50.0;");
-        isListItemCheckBox.setSelected(true);
         Separator separator3 = new Separator();
         separator3.setStyle(" -fx-orientation: VERTICAL; -fx-pref-height: 50.0;");
         setFieldTypeInputListener();

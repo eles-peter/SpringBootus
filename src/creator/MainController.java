@@ -13,7 +13,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
+import static creator.backend.config.CreateConfig.createConfig;
 import static creator.backend.domain.CreateDomains.createDomains;
+import static creator.backend.dto.CreateDTOs.createDTOs;
+import static creator.backend.repository.CreateRepositories.createRepositories;
 
 public class MainController {
 
@@ -47,7 +50,12 @@ public class MainController {
         databaseService.setBackendApplicationDirectory(backendApplicationDirectoryInput.getText());
         databaseService.setFrontendAppDirectory(frontendAppDirectoryInput.getText());
 
+        createConfig(databaseService);
+        createRepositories(databaseService);
         createDomains(databaseService);
+        createDTOs(databaseService);
+
+
         closeWindow();
     }
 

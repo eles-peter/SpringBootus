@@ -20,7 +20,6 @@ public class CreateClassDomains {
         for (DBClass dbClass : databaseService.getDbclasslist()) {
             createClassDomain(dbClass, databaseService);
         }
-
     }
 
     private static void createClassDomain(DBClass dbClass, DatabaseService databaseService) {
@@ -125,6 +124,7 @@ public class CreateClassDomains {
                 result.append(createItemName + ".get" + makeCapital(dbClassField.getName()) + "().stream()" +
                         ".map((enumDisplayName) -> " + dbClassField.getEnumName() + ".valueOf(enumDisplayName))" +
                         ".collect(Collectors.toList());\n");
+                //TODO ide megÍrni, hogy  amásik osztály ID-jéből, hogyan lesz bármi is...
             } else {
                 result.append(createItemName + ".get" + makeCapital(dbClassField.getName()) + "();\n");
             }

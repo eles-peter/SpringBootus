@@ -59,6 +59,19 @@ public class ClassBuherator {
         return result.toString();
     }
 
+    public static String makeGetterAsList(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        result.append("\tpublic ");
+        result.append("List<");
+        result.append(dbClassField.getRealType());
+        result.append("> get");
+        result.append(makeCapital(dbClassField.getName()));
+        result.append("() {\n");
+        result.append("\t\treturn " + dbClassField.getName() + "List;\n");
+        result.append("\t}\n");
+        return result.toString();
+    }
+
     public static String makeAllGetterIncludeIdGetter(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
         result.append("    public Long getId() {\n" +
@@ -115,9 +128,19 @@ public class ClassBuherator {
         return result.toString();
     }
 
+    public static String createFieldTypeWithNameAsList(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        result.append("List<");
+        result.append(dbClassField.getRealType());
+        result.append("> ");
+        result.append(dbClassField.getName());
+        result.append("List;\n");
+        return result.toString();
+    }
+
     public static String createEmptyConstructor(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
-        result.append("\tpublic " + dbClass.getName() + "() {\n");
+        result.append("\t" + dbClass.getName() + "() {\n");
         result.append("\t}\n");
         return result.toString();
     }
@@ -143,7 +166,29 @@ public class ClassBuherator {
         return result.toString();
     }
 
-    //TODO constructor byItem(list)
+    public static String createFullConstructorIncludeId(DBClass dbClass) {
+        StringBuilder result = new StringBuilder();
+        result.append("\tpublic " + dbClass.getName() + "(Long id,");
+        for (int i = 0; i < dbClass.getFieldList().size(); i++) {
+            DBClassField actualFiled = dbClass.getFieldList().get(i);
+            result.append(createFieldTypeWithName(actualFiled));
+            if (i != dbClass.getFieldList().size() - 1) {
+                result.append(", ");
+            }
+        }
+        result.append(") {\n");
+
+        result.append("\tthis.id = id;\n");
+        for (DBClassField dbClassField : dbClass.getFieldList()) {
+            result.append("\tthis.");
+            result.append(dbClassField.getName() + " = " + dbClassField.getName() + ";\n");
+        }
+
+        result.append("\t}\n");
+        return result.toString();
+    }
+
+
 
 
 }

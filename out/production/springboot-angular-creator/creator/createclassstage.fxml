@@ -44,14 +44,17 @@
       </ScrollPane>
       <Label layoutX="233.0" layoutY="67.0" text="Field Type" />
       <Label layoutX="201.0" layoutY="67.0" text="List" textAlignment="CENTER" />
-      <Label layoutX="14.0" layoutY="67.0" text="Field name" />
-      <Label layoutX="335.0" layoutY="67.0" text="other Class / Enum Name" />
+      <Label layoutX="14.0" layoutY="67.0" text="(lowerCaseLetter!)" />
+      <Label layoutX="378.0" layoutY="67.0" text="(Capital!)" />
       <Label layoutX="507.0" layoutY="67.0" text="toMany" />
-      <Label layoutX="556.0" layoutY="67.0" text="Field Name in the other Class" />
+      <Label layoutX="594.0" layoutY="67.0" text="(&quot;mapped by&quot;)" textAlignment="CENTER" />
       <Label layoutX="733.0" layoutY="67.0" text="CI*" textAlignment="CENTER" />
       <Label layoutX="771.0" layoutY="67.0" text="DI*" textAlignment="CENTER" />
       <Label layoutX="812.0" layoutY="67.0" text="LI*" textAlignment="CENTER" />
       <Label layoutX="848.0" layoutY="67.0" text="SLI*" textAlignment="CENTER" />
       <Label layoutX="10.0" layoutY="464.0" text="* CI: CreateItem, DI: DetailItem, LI: ListItem, SLI: ShortListItem (OptionList)" />
+      <Label layoutX="556.0" layoutY="53.0" text="Field Name in the other Class" />
+      <Label layoutX="335.0" layoutY="53.0" text="other Class / Enum Name" />
+      <Label layoutX="14.0" layoutY="53.0" text="Field name" />
    </children>
 </AnchorPane>
