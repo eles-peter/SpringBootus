@@ -42,7 +42,8 @@ public class CreateSpringWebConfig {
                     "    public void addCorsMappings(CorsRegistry registry) {\n" +
                     "        registry.addMapping(\"/**\")\n" +
                     "                .allowedOrigins(\"http://localhost:3000\", \"http://localhost:4200\")\n" +
-                    "                .allowedMethods(\"GET\", \"POST\", \"DELETE\", \"PUT\");\n" +
+                    "                .allowedMethods(\"GET\", \"POST\", \"DELETE\", \"PUT\")\n" +
+                    "                .allowCredentials(true);" +
                     "    }\n" +
                     "\n" +
                     "}");

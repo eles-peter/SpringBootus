@@ -26,15 +26,15 @@ public class FieldHBox extends HBox {
 
     public FieldHBox() {
         this.setStyle("-fx-alignment: CENTER_LEFT; -fx-pref-height: 35.0; -fx-pref-width: 860.0; -fx-spacing: 8.0; -fx-padding: 5.0");
-        fieldNameInput.setPrefWidth(180.0);
+        fieldNameInput.setPrefWidth(160.0);
         fieldNameInput.setPromptText("Field Name");
         setTypeChoiceBox(fieldTypeInput);
         fieldTypeInput.setPrefWidth(100.0);
-        otherClassNameInput.setPrefWidth(180.0);
+        otherClassNameInput.setPrefWidth(160.0);
         otherClassNameInput.setPromptText("other Class / Enum Name");
         otherClassNameInput.setDisable(true);
         isManyCheckBox.setDisable(true);
-        isManyFieldInput.setPrefWidth(180.0);
+        isManyFieldInput.setPrefWidth(160.0);
         isManyFieldInput.setPromptText("Field Name in other Class");
         isManyFieldInput.setDisable(true);
         Separator separator1 = new Separator();

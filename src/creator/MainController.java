@@ -14,9 +14,11 @@ import java.io.IOException;
 import java.util.List;
 
 import static creator.backend.config.CreateConfig.createConfig;
+import static creator.backend.controller.CreateControllers.createControllers;
 import static creator.backend.domain.CreateDomains.createDomains;
 import static creator.backend.dto.CreateDTOs.createDTOs;
 import static creator.backend.repository.CreateRepositories.createRepositories;
+import static creator.backend.service.CreateServices.createServices;
 
 public class MainController {
 
@@ -52,6 +54,8 @@ public class MainController {
 
         createConfig(databaseService);
         createRepositories(databaseService);
+        createControllers(databaseService);
+        createServices(databaseService);
         createDomains(databaseService);
         createDTOs(databaseService);
 

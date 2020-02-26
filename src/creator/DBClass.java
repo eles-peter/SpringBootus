@@ -1,7 +1,9 @@
 package creator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static creator.utils.StringBuherator.makeSQLName;
 
@@ -12,7 +14,10 @@ public class DBClass {
     private List<DBClassField> createFieldList = new ArrayList<>();
     private List<DBClassField> detailFieldList = new ArrayList<>();
     private List<DBClassField> listFieldList = new ArrayList<>();
+    private DBClassField listSortByField;
     private List<DBClassField> shortListFieldList = new ArrayList<>();
+    private Set<String> enumNameSet = new HashSet<>();
+    private Set<String> otherClassNameSet = new HashSet<>();
 
 
     public DBClass(String name) {
@@ -32,6 +37,12 @@ public class DBClass {
         }
         if (classField.isShortListItem()) {
             this.shortListFieldList.add(classField);
+        }
+        if (classField.getType().equals("Enum")) {
+            this.enumNameSet.add(classField.getEnumName());
+        }
+        if (classField.getType().equals("Other Class")) {
+            this.otherClassNameSet.add(classField.getOtherClassName());
         }
     }
 
@@ -71,6 +82,14 @@ public class DBClass {
 
     public List<DBClassField> getShortListFieldList() {
         return shortListFieldList;
+    }
+
+    public Set<String> getEnumNameSet() {
+        return enumNameSet;
+    }
+
+    public Set<String> getOtherClassNameSet() {
+        return otherClassNameSet;
     }
 
     @Override
