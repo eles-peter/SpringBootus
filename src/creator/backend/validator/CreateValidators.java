@@ -49,7 +49,7 @@ public class CreateValidators {
 
     private static String createOverrideValidateMethod(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
-        result.append("\t@Override");
+        result.append("\t@Override\n");
         result.append("    public void validate(Object obj, Errors e) {\n");
 
         result.append("\n\n\t\t//TODO write the validations!!!\n\n\n");
@@ -60,9 +60,9 @@ public class CreateValidators {
 
     private static String createOverrideSupportsMethod(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
-        result.append("\t@Override");
+        result.append("\t@Override\n");
         result.append("    public boolean supports(Class clazz) {\n" +
-                "        return " + dbClass.getName() + "Details.class.equals(clazz);\n" +
+                "        return " + dbClass.getName() + "CreateItem.class.equals(clazz);\n" +
                 "    }\n");
         return result.toString();
     }

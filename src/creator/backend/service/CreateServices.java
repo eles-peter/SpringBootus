@@ -52,12 +52,32 @@ public class CreateServices {
 
             writer.write(createUpdateMethod(dbClass, databaseService) + "\n");
 
+            writer.write(createDeleteMethod(dbClass, databaseService) + "\n");
 
             writer.write("}\n");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String createDeleteMethod(DBClass dbClass, DatabaseService databaseService) {
+        StringBuilder result = new StringBuilder();
+        String className = dbClass.getName();
+        String instanceName = makeUncapital(className);
+        result.append("\tpublic boolean delete" + className + "(Long id) {\n");
+        result.append("\t\tOptional<" + className + "> " + instanceName + "Optional = " + instanceName + "Repository.findById(id);\n");
+        result.append("\t\tif (" + instanceName + "Optional.isPresent()) {\n");
+        result.append("\t\t\t" + className + " " + instanceName + " = " + instanceName + "Optional.get();\n");
+        result.append("            //TODO megnézni máshol van-e...\n");
+        result.append("\t\t\t" + instanceName + "Repository.delete(" + instanceName + ");\n");
+        result.append("\t\t\treturn true;\n");
+        result.append("\t\t} else {\n");
+        result.append("\t\t\treturn false;\n");
+        result.append("\t\t}\n");
+        result.append("\t}\n");
+
+        return result.toString();
     }
 
     private static String createGetDetailItem(DBClass dbClass, DatabaseService databaseService) {

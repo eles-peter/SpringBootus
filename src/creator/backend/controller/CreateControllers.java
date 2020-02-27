@@ -164,16 +164,16 @@ public class CreateControllers {
     private static String createControllerConstructor(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
         result.append("    @Autowired\n" +
-                "    public " + dbClass.getName() + "Contoller(" +
+                "    public " + dbClass.getName() + "Controller(" +
                 dbClass.getName() + "Service " + makeUncapital(dbClass.getName()) + "Service, ");
         for (String otherClassName : dbClass.getOtherClassNameSet()) {
             result.append(otherClassName + "Service " + makeUncapital(otherClassName) + "Service, ");
         }
         result.append(dbClass.getName() + "CreateItemValidator validator) {\n");
 
-        result.append("\t\tthis." + makeUncapital(dbClass.getName()) + "Service = " +  makeUncapital(dbClass.getName()) + "Service);\n");
+        result.append("\t\tthis." + makeUncapital(dbClass.getName()) + "Service = " +  makeUncapital(dbClass.getName()) + "Service;\n");
         for (String otherClassName : dbClass.getOtherClassNameSet()) {
-            result.append("\t\tthis." + makeUncapital(otherClassName) + "Service = " +  makeUncapital(otherClassName) + "Service);\n");
+            result.append("\t\tthis." + makeUncapital(otherClassName) + "Service = " +  makeUncapital(otherClassName) + "Service;\n");
         }
         result.append("        this.validator = validator;\n" +
                 "    }\n");
@@ -194,7 +194,7 @@ public class CreateControllers {
         StringBuilder result = new StringBuilder();
 
         result.append("import javax.validation.Valid;\n\n" +
-                "import " + databaseService.getProjectName() + ".validator." + dbClass.getName() + "Validator;\n");
+                "import " + databaseService.getProjectName() + ".validator." + dbClass.getName() + "CreateItemValidator;\n");
 
         result.append("import " + databaseService.getProjectName() + ".dto.*;\n" +
                 "import " + databaseService.getProjectName() + ".service." + dbClass.getName() + "Service;\n");
