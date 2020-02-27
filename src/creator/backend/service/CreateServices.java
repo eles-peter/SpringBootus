@@ -1,12 +1,14 @@
 package creator.backend.service;
 
 import creator.DBClass;
+import creator.DBClassField;
 import creator.DatabaseService;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static creator.utils.StringBuherator.makeCapital;
 import static creator.utils.StringBuherator.makeUncapital;
 
 public class CreateServices {
@@ -44,6 +46,8 @@ public class CreateServices {
 
             writer.write(createGetEnumOptionListMethod(dbClass, databaseService) + "\n");
 
+            writer.write(createSaveMethod(dbClass, databaseService) + "\n");
+
 
 
 
@@ -52,6 +56,34 @@ public class CreateServices {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String createSaveMethod(DBClass dbClass, DatabaseService databaseService) {
+        StringBuilder result = new StringBuilder();
+        String className = dbClass.getName();
+        result.append("\tpublic void save" + className + "(" + className + "CreateItem " + makeUncapital(className) + "CreateItem) {\n");
+        result.append("\t\t" + className + " " + makeUncapital(className));
+        result.append(" = new " + className + "(" + makeUncapital(className + "CreateItem);\n\n"));
+
+        //TODO megírni, mi van, ha ez lista!!!!!!!
+
+        for (DBClassField dbClassField : dbClass.getFieldList()) {
+            if (dbClassField.getType().equals("Other Class")) {
+                String fieldName = dbClassField.getName();
+                String otherClassName = dbClassField.getOtherClassName();
+                result.append("\t\tLong " + fieldName + "Id = " + className + "CreateItem.get" + makeCapital(fieldName) + "Id();\n");
+                result.append("\t\tOptional<" + otherClassName + ">" + fieldName + "Optional = this." + makeUncapital(otherClassName) + "Repository.findById(" + fieldName + "d);\n");
+                result.append("\t\tif (" + fieldName + "Optional.isPresent()) {\n");
+                result.append("\t\t\t" + otherClassName + " " + fieldName + " = " + fieldName + "Optional.get();\n");
+                result.append("\t\t\t" + makeUncapital(className) + ".set" + makeCapital(fieldName) + "(" + fieldName + ");\n");
+                result.append("\t\t}\n\n");
+            }
+        }
+
+        result.append("\t\tthis.." + makeUncapital(className) + "Repository.save(" + makeUncapital(className) + ");\n");
+        result.append("\t}\n");
+
+        return result.toString();
     }
 
     private static String createGetEnumOptionListMethod(DBClass dbClass, DatabaseService databaseService) {
@@ -96,10 +128,17 @@ public class CreateServices {
         String repositoryInstanceName = makeUncapital(dbClass.getName()) + "Repository";
         String repositoryClassName = dbClass.getName() + "Repository";
         result.append("\tprivate " + repositoryClassName + " " + repositoryInstanceName + ";\n\n");
+        for (String otherClassName : dbClass.getOtherClassNameSet()) {
+            result.append("\tprivate " + otherClassName + "Repository " + makeUncapital(otherClassName) + "Repository;\n");
+        }
         result.append("\t@Autowired\n" +
                 "\tpublic " + dbClass.getName() + "Service(" + repositoryClassName + " " + repositoryInstanceName + ") {\n" +
-                "\t\tthis." + repositoryInstanceName + " = " + repositoryInstanceName + ";\n" +
-                "\t}\n");
+                "\t\tthis." + repositoryInstanceName + " = " + repositoryInstanceName + ";\n");
+        for (String otherClassName : dbClass.getOtherClassNameSet()) {
+            result.append("\t\tthis." + makeUncapital(otherClassName) + "Repository = " + makeUncapital(otherClassName) + "Repository;\n");
+        }
+
+        result.append("\t}\n");
         return result.toString();
     }
 
@@ -108,6 +147,7 @@ public class CreateServices {
         result.append("import " + databaseService.getProjectName() + ".domain." + dbClass.getName() + ";\n");
         for (String otherClassname : dbClass.getOtherClassNameSet()) {
             result.append("import " + databaseService.getProjectName() + ".domain." + otherClassname + ";\n");
+            result.append("import " + databaseService.getProjectName() + ".domain." + otherClassname + "Repository;\n");
         }
         for (String enumName : dbClass.getEnumNameSet()) {
             result.append("import " + databaseService.getProjectName() + ".domain." + enumName + ";\n");
