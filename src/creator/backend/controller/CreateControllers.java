@@ -107,7 +107,7 @@ public class CreateControllers {
                 "\tpublic ResponseEntity<" + className + "CreateItem> update" + className +
                 "(@Valid @RequestBody " + className + "CreateItem " + makeUncapital(className) + "CreateItem, @PathVariable Long id) {\n" +
                 "\t\tBoolean " + makeUncapital(className) + "IsUpdated = " + makeUncapital(className) +"Service.update" + className + "(" + makeUncapital(className) + "CreateItem, id);\n" +
-                "\treturn " + makeUncapital(className) + "IsUpdated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);\n" +
+                "\t\treturn " + makeUncapital(className) + "IsUpdated ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);\n" +
                 "\t}\n");
         return result.toString();
     }
@@ -131,7 +131,7 @@ public class CreateControllers {
                 "\tpublic ResponseEntity<" + className + "FormData> get" + className + "FormData() {\n");
         for (DBClassField formDataField : formDataFields) {
             result.append("\t\tList<" + formDataField.getType() + "> " + makeUncapital(formDataField.getType()) + "List = this.");
-            if (formDataField.getOtherClassName().equals("")) {
+            if (formDataField.getOtherClassName() == null) {
                 result.append(makeUncapital(dbClass.getName()));
             } else {
                 result.append(makeUncapital(formDataField.getOtherClassName()));
@@ -141,7 +141,7 @@ public class CreateControllers {
         result.append("\t\t" + className + "FormData " + makeUncapital(className) + "FormData = new " + className + "FormData(");
         for (int i = 0; i < formDataFields.size(); i++) {
             DBClassField formDataField = formDataFields.get(i);
-            result.append(formDataField.getType() + "List");
+            result.append(makeUncapital(formDataField.getType()) + "List");
             if (i != formDataFields.size() - 1) {
                 result.append(", ");
             }

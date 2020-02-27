@@ -14,7 +14,8 @@ import static creator.utils.StringBuherator.makeUncapital;
 
 public class CreateClassDomains {
 
-    public CreateClassDomains() {}
+    public CreateClassDomains() {
+    }
 
     public static void createClassDomains(DatabaseService databaseService) {
         for (DBClass dbClass : databaseService.getDbclasslist()) {
@@ -24,7 +25,7 @@ public class CreateClassDomains {
 
     private static void createClassDomain(DBClass dbClass, DatabaseService databaseService) {
         String classFileName = dbClass.getName();
-        File file= new File(databaseService.getBackendApplicationDirectory() + "\\domain\\" + classFileName + ".java");
+        File file = new File(databaseService.getBackendApplicationDirectory() + "\\domain\\" + classFileName + ".java");
         String filePackageName = databaseService.getProjectName() + ".domain";
 
         try (FileWriter writer = new FileWriter(file)) {
@@ -48,7 +49,7 @@ public class CreateClassDomains {
 
             writer.write(makeAllGetterIncludeIdGetter(dbClass) + "\n");
 
-            writer.write(makeAllSetterIncludeIdSetter(dbClass) + "\n" );
+            writer.write(makeAllSetterIncludeIdSetter(dbClass) + "\n");
 
             //TODO write override methods (toString, equals, hashCode)
 
@@ -105,21 +106,22 @@ public class CreateClassDomains {
                     "    @CollectionTable(name = \"" + dbClass.getSQLName() + "_" + dbClassField.getSQLName() + "\")\n" +
                     "    @Column(name = \"" + dbClass.getSQLName() + "_" + dbClassField.getSQLName() + "\")\n");
         } else {
-            result.append("    @Column(name = \""+ dbClassField.getSQLName() + "\")\n");
+            result.append("    @Column(name = \"" + dbClassField.getSQLName() + "\")\n");
         }
         return result.toString();
     }
 
     private static String createCreateItemConstructor(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
-        String createItemClassName =  dbClass.getName() + "CreateItem";
-        String createItemName =  makeUncapital(dbClass.getName()) + "CreateItem";
+        String createItemClassName = dbClass.getName() + "CreateItem";
+        String createItemName = makeUncapital(dbClass.getName()) + "CreateItem";
         result.append("\tpublic " + dbClass.getName() + "(" + createItemClassName + " " + createItemName + ") {\n");
         for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
-            result.append("\t\tthis." + dbClassField.getName() + " = ");
-
+            if (!dbClassField.getType().equals("Other Class")) {
+                result.append("\t\tthis." + dbClassField.getName() + " = ");
+            }
             if (dbClassField.getType().equals("Enum") && !dbClassField.isList()) {
-                result.append(dbClassField.getEnumName() + ".valueOf(" + createItemName + ".get" + makeCapital(dbClassField.getName()) + "());\n" );
+                result.append(dbClassField.getEnumName() + ".valueOf(" + createItemName + ".get" + makeCapital(dbClassField.getName()) + "());\n");
             } else if (dbClassField.getType().equals("Enum") && dbClassField.isList()) {
                 result.append(createItemName + ".get" + makeCapital(dbClassField.getName()) + "().stream()" +
                         ".map(" + dbClassField.getEnumName() + "::valueOf)" +
@@ -132,8 +134,6 @@ public class CreateClassDomains {
         result.append("\t}\n");
         return result.toString();
     }
-
-
 
 
 }

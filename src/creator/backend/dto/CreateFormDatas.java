@@ -48,7 +48,7 @@ public class CreateFormDatas {
 
             writer.write(createFormDataFieldLines(formDataFields) + "\n");
 
-            writer.write(createFormDataConstructor(dbClass, formDataFields));
+            writer.write(createFormDataConstructor(dbClass, formDataFields) + "\n");
 
             writer.write(createFormDataGetters(formDataFields) + "\n");
 

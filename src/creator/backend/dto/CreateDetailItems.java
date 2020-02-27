@@ -14,20 +14,21 @@ import static creator.utils.ClassBuherator.*;
 import static creator.utils.StringBuherator.makeCapital;
 import static creator.utils.StringBuherator.makeUncapital;
 
-public class CreateListItems {
+public class CreateDetailItems {
 
-    private CreateListItems() {
+    private CreateDetailItems() {
     }
 
-    public static void createListItems(DatabaseService databaseService) {
+    public static void createDetailItems(DatabaseService databaseService) {
 
         for (DBClass dbClass : databaseService.getDbclasslist()) {
-            createListItem(dbClass, databaseService);
+            createDetailItem(dbClass, databaseService);
         }
+
     }
 
-    private static void createListItem(DBClass dbClass, DatabaseService databaseService) {
-        String classFileName = dbClass.getName() + "ListItem";
+    private static void createDetailItem(DBClass dbClass, DatabaseService databaseService) {
+        String classFileName = dbClass.getName() + "DetailItem";
         File file = new File(databaseService.getBackendApplicationDirectory() + "\\dto\\" + classFileName + ".java");
         String filePackageName = databaseService.getProjectName() + ".dto";
 
@@ -53,12 +54,13 @@ public class CreateListItems {
         }
     }
 
+
     private static String createSetters(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
         result.append("    public void setId(Long id) {\n" +
                 "        this.id = id;\n" +
                 "    }\n\n");
-        for (DBClassField dbClassField : dbClass.getListFieldList()) {
+        for (DBClassField dbClassField : dbClass.getDetailFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
                 result.append(makeSetterAsString(dbClassField) + "\n");
             } else if (dbClassField.getType().equals("Other Class")) {
@@ -70,12 +72,13 @@ public class CreateListItems {
         return result.toString();
     }
 
+
     private static String createGetters(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
         result.append("    public Long getId() {\n" +
                 "        return id;\n" +
                 "    }\n\n");
-        for (DBClassField dbClassField : dbClass.getListFieldList()) {
+        for (DBClassField dbClassField : dbClass.getDetailFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
                 result.append(makeGetterAsString(dbClassField) + "\n");
             } else if (dbClassField.getType().equals("Other Class")) {
@@ -91,13 +94,13 @@ public class CreateListItems {
         StringBuilder result = new StringBuilder();
         String domainClassname = dbClass.getName();
         String domainInstanceName = makeUncapital(domainClassname);
-        result.append("\tpublic " + domainClassname + "ListItem(" + domainClassname + " " + domainInstanceName + ") {\n");
+        result.append("\tpublic " + domainClassname + "DetailItem(" + domainClassname + " " + domainInstanceName + ") {\n");
 
         result.append("\t\tthis.id = " + domainInstanceName + ".getId();\n");
-        for (DBClassField dbClassField : dbClass.getListFieldList()) {
+        for (DBClassField dbClassField : dbClass.getDetailFieldList()) {
             if (dbClassField.getType().equals("Enum") && !dbClassField.isList()) {
                 result.append("\t\tthis." + dbClassField.getName() + " = ");
-                result.append(domainInstanceName + ".get" + dbClassField.getEnumName() + "().getDisplayName();\n");
+                result.append(domainInstanceName + ".get" + dbClassField.getName() + "().getDisplayName();\n");
             } else if (dbClassField.getType().equals("Enum") && dbClassField.isList()) {
                 result.append("\t\tfor (" + dbClassField.getEnumName() + " " + makeUncapital(dbClassField.getEnumName()) + " : " + domainInstanceName + ".get" + makeCapital(dbClassField.getName() + "()) {\n"));
                 result.append("\t\t\tthis." + dbClassField.getName() + ".add(" + makeUncapital(dbClassField.getEnumName()) + ".getDisplayName());\n");
@@ -120,15 +123,16 @@ public class CreateListItems {
 
     private static String createEmptyConstructor(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
-        result.append("\t" + dbClass.getName() + "ListItem() {\n");
+        result.append("\t" + dbClass.getName() + "DetailItem() {\n");
         result.append("\t}\n");
         return result.toString();
     }
 
+
     private static String createFields(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
         result.append("    private Long id;\n");
-        for (DBClassField dbClassField : dbClass.getListFieldList()) {
+        for (DBClassField dbClassField : dbClass.getDetailFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
                 result.append(makeFieldLineTypeAsString(dbClassField));
             } else if (dbClassField.getType().equals("Other Class")) {
@@ -146,7 +150,7 @@ public class CreateListItems {
         Set<String> listEnumSet = new HashSet<>();
         Set<String> listOtherClassNameSet = new HashSet<>();
         Boolean isListInList = false;
-        for (DBClassField dbClassField : dbClass.getListFieldList()) {
+        for (DBClassField dbClassField : dbClass.getDetailFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
                 listEnumSet.add(dbClassField.getEnumName());
             } else if (dbClassField.getType().equals("Other Class")){
@@ -168,4 +172,16 @@ public class CreateListItems {
         }
         return result.toString();
     }
+
+
+
+
+
+
+
+
+
+
+
+
 }

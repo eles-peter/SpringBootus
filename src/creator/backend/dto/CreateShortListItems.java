@@ -62,11 +62,11 @@ public class CreateShortListItems {
                 "    }\n\n");
         for (DBClassField dbClassField : dbClass.getShortListFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
-                result.append(makeSetterAsString(dbClassField));
+                result.append(makeSetterAsString(dbClassField) + "\n");
             } else if (dbClassField.getType().equals("Other Class")) {
-                result.append(makeSetterOtherClassAsShortListItem(dbClassField));
+                result.append(makeSetterOtherClassAsShortListItem(dbClassField) + "\n");
             } else {
-                result.append(makeSetter(dbClassField));
+                result.append(makeSetter(dbClassField) + "\n");
             }
         }
         return result.toString();
@@ -79,11 +79,11 @@ public class CreateShortListItems {
                 "    }\n\n");
         for (DBClassField dbClassField : dbClass.getShortListFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
-                result.append(makeGetterAsString(dbClassField));
+                result.append(makeGetterAsString(dbClassField) + "\n");
             } else if (dbClassField.getType().equals("Other Class")) {
-                result.append(makeGetterOtherClassAsShortListItem(dbClassField));
+                result.append(makeGetterOtherClassAsShortListItem(dbClassField) + "\n");
             } else {
-                result.append(makeGetter(dbClassField));
+                result.append(makeGetter(dbClassField) + "\n");
             }
         }
         return result.toString();

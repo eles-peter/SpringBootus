@@ -48,7 +48,7 @@ public class CreateServices {
 
             writer.write(createSaveMethod(dbClass, databaseService) + "\n");
 
-
+            writer.write(createGetDetailItem(dbClass, databaseService) + "\n");
 
 
             writer.write("}\n");
@@ -56,6 +56,23 @@ public class CreateServices {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String createGetDetailItem(DBClass dbClass, DatabaseService databaseService) {
+        StringBuilder result = new StringBuilder();
+        String className = dbClass.getName();
+        result.append("\tpublic " + className + "DetailItem get" + className + "DetailItem (Long id) {\n");
+        String instanceName = makeUncapital(className);
+        result.append("\t\t" + className + "DetailItem " + instanceName + "DetailItem = null;\n");
+        result.append("\t\t Optional<" + className + "> " + instanceName + "Optional = " + instanceName + "Repository.findById(id);\n");
+        result.append("\t\tif (" + instanceName + "Optional.isPresent()) {\n");
+        result.append("\t\t\t" + instanceName + "DetailItem = new " + className + "DetailItem(" + instanceName + "Optional.get());\n");
+        result.append("\t\t}\n");
+        result.append("\t\treturn " + instanceName + "DetailItem;\n");
+
+        result.append("\t}\n");
+
+        return result.toString();
     }
 
     private static String createSaveMethod(DBClass dbClass, DatabaseService databaseService) {
@@ -67,12 +84,12 @@ public class CreateServices {
 
         //TODO megírni, mi van, ha ez lista!!!!!!!
 
-        for (DBClassField dbClassField : dbClass.getFieldList()) {
+        for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
             if (dbClassField.getType().equals("Other Class")) {
                 String fieldName = dbClassField.getName();
                 String otherClassName = dbClassField.getOtherClassName();
-                result.append("\t\tLong " + fieldName + "Id = " + className + "CreateItem.get" + makeCapital(fieldName) + "Id();\n");
-                result.append("\t\tOptional<" + otherClassName + ">" + fieldName + "Optional = this." + makeUncapital(otherClassName) + "Repository.findById(" + fieldName + "d);\n");
+                result.append("\t\tLong " + fieldName + "Id = " + makeUncapital(className) + "CreateItem.get" + makeCapital(fieldName) + "Id();\n");
+                result.append("\t\tOptional<" + otherClassName + ">" + fieldName + "Optional = this." + makeUncapital(otherClassName) + "Repository.findById(" + fieldName + "Id);\n");
                 result.append("\t\tif (" + fieldName + "Optional.isPresent()) {\n");
                 result.append("\t\t\t" + otherClassName + " " + fieldName + " = " + fieldName + "Optional.get();\n");
                 result.append("\t\t\t" + makeUncapital(className) + ".set" + makeCapital(fieldName) + "(" + fieldName + ");\n");
@@ -80,7 +97,7 @@ public class CreateServices {
             }
         }
 
-        result.append("\t\tthis.." + makeUncapital(className) + "Repository.save(" + makeUncapital(className) + ");\n");
+        result.append("\t\tthis." + makeUncapital(className) + "Repository.save(" + makeUncapital(className) + ");\n");
         result.append("\t}\n");
 
         return result.toString();
@@ -127,13 +144,17 @@ public class CreateServices {
         StringBuilder result = new StringBuilder();
         String repositoryInstanceName = makeUncapital(dbClass.getName()) + "Repository";
         String repositoryClassName = dbClass.getName() + "Repository";
-        result.append("\tprivate " + repositoryClassName + " " + repositoryInstanceName + ";\n\n");
+        result.append("\tprivate " + repositoryClassName + " " + repositoryInstanceName + ";\n");
         for (String otherClassName : dbClass.getOtherClassNameSet()) {
             result.append("\tprivate " + otherClassName + "Repository " + makeUncapital(otherClassName) + "Repository;\n");
         }
-        result.append("\t@Autowired\n" +
-                "\tpublic " + dbClass.getName() + "Service(" + repositoryClassName + " " + repositoryInstanceName + ") {\n" +
-                "\t\tthis." + repositoryInstanceName + " = " + repositoryInstanceName + ";\n");
+        result.append("\n\t@Autowired\n" +
+                "\tpublic " + dbClass.getName() + "Service(");
+        for (String otherClassName : dbClass.getOtherClassNameSet()) {
+            result.append(otherClassName + "Repository " + makeUncapital(otherClassName) + "Repository, ");
+        }
+        result.append(repositoryClassName + " " + repositoryInstanceName+ ") {\n");
+        result.append("\t\tthis." + repositoryInstanceName + " = " + repositoryInstanceName + ";\n");
         for (String otherClassName : dbClass.getOtherClassNameSet()) {
             result.append("\t\tthis." + makeUncapital(otherClassName) + "Repository = " + makeUncapital(otherClassName) + "Repository;\n");
         }
@@ -147,7 +168,7 @@ public class CreateServices {
         result.append("import " + databaseService.getProjectName() + ".domain." + dbClass.getName() + ";\n");
         for (String otherClassname : dbClass.getOtherClassNameSet()) {
             result.append("import " + databaseService.getProjectName() + ".domain." + otherClassname + ";\n");
-            result.append("import " + databaseService.getProjectName() + ".domain." + otherClassname + "Repository;\n");
+            result.append("import " + databaseService.getProjectName() + ".repository." + otherClassname + "Repository;\n");
         }
         for (String enumName : dbClass.getEnumNameSet()) {
             result.append("import " + databaseService.getProjectName() + ".domain." + enumName + ";\n");
