@@ -57,7 +57,7 @@ public class CreateServices {
     private static String createGetEnumOptionListMethod(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
         for (String enumName : dbClass.getEnumNameSet()) {
-            result.append("\tprivate List<" + enumName + "Option> get" + enumName + "List() {\n" +
+            result.append("\tpublic List<" + enumName + "Option> get" + enumName + "OptionList() {\n" +
                     "\t\treturn Arrays.stream(" + enumName + ".values()).map(" + enumName + "Option::new).collect(Collectors.toList());\n" +
                     "\t}\n");
         }
@@ -119,10 +119,12 @@ public class CreateServices {
                 "import org.springframework.transaction.annotation.Transactional;\n" +
                 "import org.springframework.beans.factory.annotation.Autowired;\n\n");
 
-        result.append("import java.util.ArrayList;\n" +
-                "import java.util.List;\n" +
+        result.append("import java.util.List;\n" +
                 "import java.util.Optional;\n" +
-                "import java.util.stream.Collectors;\n"); //TODO stream biztos kell?
+                "import java.util.stream.Collectors;\n");
+        if (!dbClass.getEnumNameSet().isEmpty()) {
+            result.append("import java.util.Arrays;\n");
+        }
 
         return result.toString();
     }

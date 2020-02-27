@@ -21,6 +21,28 @@ public class ClassBuherator {
         return result.toString();
     }
 
+    public static String makeFieldLineTypeAsString(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        result.append("\tprivate ");
+        result.append(createFieldTypeAsStringWithName(dbClassField));
+        if (dbClassField.isList()) {
+            result.append(" = new ArrayList<>()");
+        }
+        result.append(";");
+        return result.toString();
+    }
+
+    public static String makeFieldLineTypeAsShortListItem(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        result.append("\tprivate ");
+        result.append(createFieldTypeAsShortListItemWithName(dbClassField));
+        if (dbClassField.isList()) {
+            result.append(" = new ArrayList<>()");
+        }
+        result.append(";");
+        return result.toString();
+    }
+
 
     public static String makeFieldLine(String fieldType, String fieldName, boolean isList) {
         StringBuilder result = new StringBuilder();
@@ -47,6 +69,45 @@ public class ClassBuherator {
             result.append("List<");
         }
         result.append(dbClassField.getRealType());
+        if (dbClassField.isList()) {
+            result.append(">");
+        }
+        result.append(" get");
+        result.append(makeCapital(dbClassField.getName()));
+        result.append("() {\n");
+
+        result.append("\t\treturn " + dbClassField.getName() + ";\n");
+        result.append("\t}\n");
+        return result.toString();
+    }
+
+
+    public static String makeGetterAsString(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        result.append("\tpublic ");
+        if (dbClassField.isList()) {
+            result.append("List<");
+        }
+        result.append("String");
+        if (dbClassField.isList()) {
+            result.append(">");
+        }
+        result.append(" get");
+        result.append(makeCapital(dbClassField.getName()));
+        result.append("() {\n");
+
+        result.append("\t\treturn " + dbClassField.getName() + ";\n");
+        result.append("\t}\n");
+        return result.toString();
+    }
+
+    public static String makeGetterOtherClassAsShortListItem(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        result.append("\tpublic ");
+        if (dbClassField.isList()) {
+            result.append("List<");
+        }
+        result.append(dbClassField.getOtherClassName() + "ShortListItem");
         if (dbClassField.isList()) {
             result.append(">");
         }
@@ -102,6 +163,42 @@ public class ClassBuherator {
         return result.toString();
     }
 
+    public static String makeSetterOtherClassAsShortListItem(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        result.append("\tpublic void set");
+        result.append(makeCapital(dbClassField.getName()));
+        result.append("(");
+        result.append(createFieldTypeAsShortListItemWithName(dbClassField));
+        result.append(") {\n");
+
+        result.append("\t\tthis.");
+        result.append(dbClassField.getName());
+        result.append(" = ");
+        result.append(dbClassField.getName());
+        result.append(";\n");
+
+        result.append("\t}\n");
+        return result.toString();
+    }
+
+    public static String makeSetterAsString(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        result.append("\tpublic void set");
+        result.append(makeCapital(dbClassField.getName()));
+        result.append("(");
+        result.append(createFieldTypeAsStringWithName(dbClassField));
+        result.append(") {\n");
+
+        result.append("\t\tthis.");
+        result.append(dbClassField.getName());
+        result.append(" = ");
+        result.append(dbClassField.getName());
+        result.append(";\n");
+
+        result.append("\t}\n");
+        return result.toString();
+    }
+
     public static String makeAllSetterIncludeIdSetter(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
         result.append("    public void setId(Long id) {\n" +
@@ -120,6 +217,34 @@ public class ClassBuherator {
             result.append("List<");
         }
         result.append(dbClassField.getRealType());
+        if (dbClassField.isList()) {
+            result.append(">");
+        }
+        result.append(" ");
+        result.append(dbClassField.getName());
+        return result.toString();
+    }
+
+    public static String createFieldTypeAsShortListItemWithName(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        if (dbClassField.isList()) {
+            result.append("List<");
+        }
+        result.append(dbClassField.getOtherClassName() + "ShortListItem");
+        if (dbClassField.isList()) {
+            result.append(">");
+        }
+        result.append(" ");
+        result.append(dbClassField.getName());
+        return result.toString();
+    }
+
+    public static String createFieldTypeAsStringWithName(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        if (dbClassField.isList()) {
+            result.append("List<");
+        }
+        result.append("String");
         if (dbClassField.isList()) {
             result.append(">");
         }

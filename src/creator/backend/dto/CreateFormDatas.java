@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static creator.utils.ClassBuherator.createFieldTypeWithNameAsList;
 import static creator.utils.ClassBuherator.makeGetterAsList;
@@ -45,37 +44,69 @@ public class CreateFormDatas {
             writer.write(addImports(dbClass, databaseService));
             writer.write("public class " + classFileName + " {\n\n");
 
-//            List<DBClassField> formDataFields=  dbClass.getCreateFieldList().stream()
-//                    .filter(field -> field.getType().equals("Enum") || field.getType().equals("Other Class"))
-//                    .collect(Collectors.toList());
+            List<DBClassField> formDataFields = getFormDataClassFields(dbClass);
 
-            List<DBClassField> formDataFields = new ArrayList<>();
-            for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
-                if (dbClassField.getType().equals("Enum")) {
-                    String enumOptionClassName = makeCapital(dbClassField.getEnumName()) + "Option";
-                    String  fieldName = dbClassField.getName();
-                    formDataFields.add(new DBClassField(fieldName, enumOptionClassName));
-                } else if (dbClassField.getType().equals("Other Class")) {
-                    String shortListItemClassName = dbClassField.getOtherClassName() + "ShortListItem";
-                    String fieldName = makeUncapital(dbClassField.getOtherClassName());
-                    formDataFields.add(new DBClassField(fieldName, shortListItemClassName));
-                }
-            }
+            writer.write(createFormDataFieldLines(formDataFields) + "\n");
 
-            for (DBClassField formDataField : formDataFields) {
-                writer.write("\tprivate " + createFieldTypeWithNameAsList(formDataField));
-            }
+            writer.write(createFormDataConstructor(dbClass, formDataFields));
 
-            writer.write("\n");
-            //TODO kell constructor???
-            for (DBClassField formDataField : formDataFields) {
-                writer.write(makeGetterAsList(formDataField) + "\n");
-            }
+            writer.write(createFormDataGetters(formDataFields) + "\n");
+
             writer.write("}\n");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String createFormDataGetters(List<DBClassField> formDataFields) {
+        StringBuilder result = new StringBuilder();
+        for (DBClassField formDataField : formDataFields) {
+            result.append(makeGetterAsList(formDataField) + "\n");
+        }
+        return result.toString();
+    }
+
+    public static String createFormDataFieldLines(List<DBClassField> formDataFields) {
+        StringBuilder result = new StringBuilder();
+        for (DBClassField formDataField : formDataFields) {
+            result.append("\tprivate " + createFieldTypeWithNameAsList(formDataField));
+        }
+        return result.toString();
+    }
+
+    public static List<DBClassField> getFormDataClassFields(DBClass dbClass) {
+        List<DBClassField> formDataFields = new ArrayList<>();
+        for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
+            if (dbClassField.getType().equals("Enum")) {
+                String enumOptionClassName = makeCapital(dbClassField.getEnumName()) + "Option";
+                String  fieldName = dbClassField.getName();
+                formDataFields.add(new DBClassField(fieldName, enumOptionClassName));
+            } else if (dbClassField.getType().equals("Other Class")) {
+                String shortListItemClassName = dbClassField.getOtherClassName() + "ShortListItem";
+                String fieldName = makeUncapital(dbClassField.getOtherClassName());
+                formDataFields.add(new DBClassField(fieldName, shortListItemClassName));
+            }
+        }
+        return formDataFields;
+    }
+
+    public static String createFormDataConstructor(DBClass dbClass, List<DBClassField> formDataFields) {
+        StringBuilder result = new StringBuilder();
+        result.append("\tpublic " + dbClass.getName() + "FormData(");
+        for (int i = 0; i < formDataFields.size(); i++) {
+            DBClassField formDataField = formDataFields.get(i);
+            result.append("List<" + formDataField.getType() + "> " + formDataField.getName() + "List");
+            if (i != formDataFields.size() - 1) {
+                result.append(", ");
+            }
+        }
+        result.append(") {\n");
+        for (DBClassField formDataField : formDataFields) {
+            result.append("\t\tthis." + formDataField.getName() + "List = " + formDataField.getName() + "List;\n");
+        }
+        result.append("\t}\n");
+        return result.toString();
     }
 
     private static String addImports(DBClass dbClass, DatabaseService databaseService) {

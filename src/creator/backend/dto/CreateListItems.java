@@ -14,22 +14,20 @@ import static creator.utils.ClassBuherator.*;
 import static creator.utils.StringBuherator.makeCapital;
 import static creator.utils.StringBuherator.makeUncapital;
 
-public class CreateShortListItems {
+public class CreateListItems {
 
-    private CreateShortListItems() {
+    private CreateListItems() {
     }
 
-    public static void createShortListItems(DatabaseService databaseService) {
-
-        //TODO lehet, hogy kell egy szűrő, hogy csak azokat az osztályokat készítse el amik benne vannak másik osztály createList-ében...
+    public static void createListItems(DatabaseService databaseService) {
 
         for (DBClass dbClass : databaseService.getDbclasslist()) {
-            createShortListItem(dbClass, databaseService);
+            createListItem(dbClass, databaseService);
         }
     }
 
-    private static void createShortListItem(DBClass dbClass, DatabaseService databaseService) {
-        String classFileName = dbClass.getName() + "ShortListItem";
+    private static void createListItem(DBClass dbClass, DatabaseService databaseService) {
+        String classFileName = dbClass.getName() + "ListItem";
         File file = new File(databaseService.getBackendApplicationDirectory() + "\\dto\\" + classFileName + ".java");
         String filePackageName = databaseService.getProjectName() + ".dto";
 
@@ -60,7 +58,7 @@ public class CreateShortListItems {
         result.append("    public void setId(Long id) {\n" +
                 "        this.id = id;\n" +
                 "    }\n\n");
-        for (DBClassField dbClassField : dbClass.getShortListFieldList()) {
+        for (DBClassField dbClassField : dbClass.getListFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
                 result.append(makeSetterAsString(dbClassField));
             } else if (dbClassField.getType().equals("Other Class")) {
@@ -77,7 +75,7 @@ public class CreateShortListItems {
         result.append("    public Long getId() {\n" +
                 "        return id;\n" +
                 "    }\n\n");
-        for (DBClassField dbClassField : dbClass.getShortListFieldList()) {
+        for (DBClassField dbClassField : dbClass.getListFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
                 result.append(makeGetterAsString(dbClassField));
             } else if (dbClassField.getType().equals("Other Class")) {
@@ -93,10 +91,10 @@ public class CreateShortListItems {
         StringBuilder result = new StringBuilder();
         String domainClassname = dbClass.getName();
         String domainInstanceName = makeUncapital(domainClassname);
-        result.append("\tpublic " + domainClassname + "ShortListItem(" + domainClassname + " " + domainInstanceName + ") {\n");
+        result.append("\tpublic " + domainClassname + "ListItem(" + domainClassname + " " + domainInstanceName + ") {\n");
 
         result.append("\t\tthis.id = " + domainInstanceName + ".getId();\n");
-        for (DBClassField dbClassField : dbClass.getShortListFieldList()) {
+        for (DBClassField dbClassField : dbClass.getListFieldList()) {
             if (dbClassField.getType().equals("Enum") && !dbClassField.isList()) {
                 result.append("\t\tthis." + dbClassField.getName() + " = ");
                 result.append(domainInstanceName + ".get" + dbClassField.getEnumName() + "().getDisplayName();\n");
@@ -122,7 +120,7 @@ public class CreateShortListItems {
 
     private static String createEmptyConstructor(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
-        result.append("\t" + dbClass.getName() + "ShortListItem() {\n");
+        result.append("\t" + dbClass.getName() + "ListItem() {\n");
         result.append("\t}\n");
         return result.toString();
     }
@@ -130,7 +128,7 @@ public class CreateShortListItems {
     private static String createFields(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
         result.append("    private Long id;\n");
-        for (DBClassField dbClassField : dbClass.getShortListFieldList()) {
+        for (DBClassField dbClassField : dbClass.getListFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
                 result.append(makeFieldLineTypeAsString(dbClassField));
             } else if (dbClassField.getType().equals("Other Class")) {
@@ -145,26 +143,26 @@ public class CreateShortListItems {
     public static String addImports(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
         result.append("import " + databaseService.getProjectName() + ".domain." + dbClass.getName() + ";\n");
-        Set<String> shortListEnumSet = new HashSet<>();
-        Set<String> shortListOtherClassNameSet = new HashSet<>();
-        Boolean isListInShortList = false;
-        for (DBClassField dbClassField : dbClass.getShortListFieldList()) {
+        Set<String> listEnumSet = new HashSet<>();
+        Set<String> listOtherClassNameSet = new HashSet<>();
+        Boolean isListInList = false;
+        for (DBClassField dbClassField : dbClass.getListFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
-                shortListEnumSet.add(dbClassField.getEnumName());
+                listEnumSet.add(dbClassField.getEnumName());
             } else if (dbClassField.getType().equals("Other Class")){
-                shortListOtherClassNameSet.add(dbClassField.getOtherClassName());
+                listOtherClassNameSet.add(dbClassField.getOtherClassName());
             }
             if (dbClassField.isList()) {
-                isListInShortList = true;
+                isListInList = true;
             }
         }
-        for (String enumName : shortListEnumSet) {
+        for (String enumName : listEnumSet) {
             result.append("import " + databaseService.getProjectName() + ".domain." + enumName + ";\n");
         }
-        for (String otherClassName : shortListOtherClassNameSet) {
+        for (String otherClassName : listOtherClassNameSet) {
             result.append("import " + databaseService.getProjectName() + ".domain." + otherClassName + ";\n");
         }
-        if (isListInShortList) {
+        if (isListInList) {
             result.append("import java.util.ArrayList;\n" +
                     "import java.util.List;\n");
         }

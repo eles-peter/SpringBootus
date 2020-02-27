@@ -7,6 +7,7 @@ import java.io.File;
 import static creator.backend.dto.CreateCreateItems.createCreateItems;
 import static creator.backend.dto.CreateEnumOptions.createEnumOptions;
 import static creator.backend.dto.CreateFormDatas.createFormDatas;
+import static creator.backend.dto.CreateListItems.createListItems;
 import static creator.backend.dto.CreateShortListItems.createShortListItems;
 
 public class CreateDTOs {
@@ -22,6 +23,7 @@ public class CreateDTOs {
         createCreateItems(databaseService);
         createFormDatas(databaseService);
         createShortListItems(databaseService);
+        createListItems(databaseService);
 
 
     }

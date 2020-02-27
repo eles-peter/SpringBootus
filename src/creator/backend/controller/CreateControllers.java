@@ -1,12 +1,16 @@
 package creator.backend.controller;
 
 import creator.DBClass;
+import creator.DBClassField;
 import creator.DatabaseService;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import static creator.utils.StringBuherator.makeCapital;
 import static creator.utils.StringBuherator.makeUncapital;
 
 public class CreateControllers {
@@ -38,7 +42,9 @@ public class CreateControllers {
             writer.write(createControllerConstructor(dbClass) + "\n");
             writer.write(createDataBinder(dbClass) + "\n");
 
-            writer.write(createFormDataMethod(dbClass) + "\n");
+            List<DBClassField> formDataFields = getFormDataClassFields(dbClass);
+
+            writer.write(createFormDataMethod(dbClass, formDataFields) + "\n");
 
             writer.write(createSaveMethod(dbClass) + "\n");
 
@@ -117,14 +123,31 @@ public class CreateControllers {
         return result.toString();
     }
 
-    //TODO ezt át írni!! A contoller rakja össze!
-    private static String createFormDataMethod(DBClass dbClass) {
+
+    private static String createFormDataMethod(DBClass dbClass, List<DBClassField> formDataFields) {
         StringBuilder result = new StringBuilder();
         String className = dbClass.getName();
         result.append("\t@GetMapping(\"/formData\")\n" +
-                "\tpublic ResponseEntity<" + className + "FormData> get" + className + "FormData() {\n" +
-                "\t\t" + className + "FormData " + makeUncapital(className) + "FormData = this." + makeUncapital(className) + "Service.make" + className + "FormData();\n" +
-                "\t\treturn new ResponseEntity<>(" + className + "FormData, HttpStatus.OK);\n" +
+                "\tpublic ResponseEntity<" + className + "FormData> get" + className + "FormData() {\n");
+        for (DBClassField formDataField : formDataFields) {
+            result.append("\t\tList<" + formDataField.getType() + "> " + makeUncapital(formDataField.getType()) + "List = this.");
+            if (formDataField.getOtherClassName().equals("")) {
+                result.append(makeUncapital(dbClass.getName()));
+            } else {
+                result.append(makeUncapital(formDataField.getOtherClassName()));
+            }
+            result.append("Service.get" + formDataField.getType() + "List();\n");
+        }
+        result.append("\t\t" + className + "FormData " + makeUncapital(className) + "FormData = new " + className + "FormData(");
+        for (int i = 0; i < formDataFields.size(); i++) {
+            DBClassField formDataField = formDataFields.get(i);
+            result.append(formDataField.getType() + "List");
+            if (i != formDataFields.size() - 1) {
+                result.append(", ");
+            }
+        }
+        result.append(");\n");
+        result.append("\t\treturn new ResponseEntity<>(" + makeUncapital(className) + "FormData, HttpStatus.OK);\n" +
                 "\t}\n");
         return result.toString();
     }
@@ -176,8 +199,6 @@ public class CreateControllers {
         result.append("import " + databaseService.getProjectName() + ".dto.*;\n" +
                 "import " + databaseService.getProjectName() + ".service." + dbClass.getName() + "Service;\n");
 
-
-        //TODO ez hülyeség ez a szervíz rétegbe kell és a construktor és a field is!!!! Lehet mégsem hülyeség!!!!
         for (String OtherClassName : dbClass.getOtherClassNameSet()) {
             result.append("import " + databaseService.getProjectName() + ".service." + OtherClassName + "Service;\n");
         }
@@ -190,5 +211,23 @@ public class CreateControllers {
                 "import java.util.*;\n\n");
 
         return result.toString();
+    }
+
+    public static List<DBClassField> getFormDataClassFields(DBClass dbClass) {
+        List<DBClassField> formDataFields = new ArrayList<>();
+        for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
+            if (dbClassField.getType().equals("Enum")) {
+                String enumOptionClassName = makeCapital(dbClassField.getEnumName()) + "Option";
+                String fieldName = dbClassField.getName();
+                formDataFields.add(new DBClassField(fieldName, enumOptionClassName));
+            } else if (dbClassField.getType().equals("Other Class")) {
+                String shortListItemClassName = dbClassField.getOtherClassName() + "ShortListItem";
+                String fieldName = makeUncapital(dbClassField.getOtherClassName());
+                DBClassField otherClassFormDataField = new DBClassField(fieldName, shortListItemClassName);
+                otherClassFormDataField.setOtherClassName(dbClassField.getOtherClassName());
+                formDataFields.add(otherClassFormDataField);
+            }
+        }
+        return formDataFields;
     }
 }

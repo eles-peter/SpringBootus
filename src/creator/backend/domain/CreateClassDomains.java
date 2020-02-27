@@ -122,10 +122,10 @@ public class CreateClassDomains {
                 result.append(dbClassField.getEnumName() + ".valueOf(" + createItemName + ".get" + makeCapital(dbClassField.getName()) + "());\n" );
             } else if (dbClassField.getType().equals("Enum") && dbClassField.isList()) {
                 result.append(createItemName + ".get" + makeCapital(dbClassField.getName()) + "().stream()" +
-                        ".map((enumDisplayName) -> " + dbClassField.getEnumName() + ".valueOf(enumDisplayName))" +
+                        ".map(" + dbClassField.getEnumName() + "::valueOf)" +
                         ".collect(Collectors.toList());\n");
-                //TODO ide megÍrni, hogy  amásik osztály ID-jéből, hogyan lesz bármi is...
-            } else {
+
+            } else if (!dbClassField.getType().equals("Other Class")) {
                 result.append(createItemName + ".get" + makeCapital(dbClassField.getName()) + "();\n");
             }
         }
