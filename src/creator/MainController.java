@@ -17,8 +17,10 @@ import static creator.backend.config.CreateConfig.createConfig;
 import static creator.backend.controller.CreateControllers.createControllers;
 import static creator.backend.domain.CreateDomains.createDomains;
 import static creator.backend.dto.CreateDTOs.createDTOs;
+import static creator.backend.exception.CreateExceptions.createExceptions;
 import static creator.backend.repository.CreateRepositories.createRepositories;
 import static creator.backend.service.CreateServices.createServices;
+import static creator.backend.validator.CreateValidators.createValidators;
 
 public class MainController {
 
@@ -58,6 +60,8 @@ public class MainController {
         createServices(databaseService);
         createDomains(databaseService);
         createDTOs(databaseService);
+        createExceptions(databaseService);
+        createValidators(databaseService);
 
 
         closeWindow();
