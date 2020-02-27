@@ -50,6 +50,8 @@ public class CreateServices {
 
             writer.write(createGetDetailItem(dbClass, databaseService) + "\n");
 
+            writer.write(createUpdateMethod(dbClass, databaseService) + "\n");
+
 
             writer.write("}\n");
 
@@ -75,6 +77,38 @@ public class CreateServices {
         return result.toString();
     }
 
+    private static String createUpdateMethod(DBClass dbClass, DatabaseService databaseService) {
+        StringBuilder result = new StringBuilder();
+        String className = dbClass.getName();
+        result.append("\tpublic Boolean update" + className + "(" + className + "CreateItem " + makeUncapital(className) + "CreateItem, Long id) {\n");
+        result.append("\t\tOptional<" + className + "> " + makeUncapital(className) + "Optional = " + makeUncapital(className) + "Repository.findById(id);\n");
+        result.append("\t\tif (" + makeUncapital(className) + "Optional.isPresent()) {\n");
+        result.append("\t\t\t" + className + " " + makeUncapital(className));
+        result.append(" = new " + className + "(" + makeUncapital(className + "CreateItem);\n\n"));
+        result.append("\t\t\t" + makeUncapital(className) + ".setId(id);\n");
+
+        for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
+            if (dbClassField.getType().equals("Other Class")) {
+                String fieldName = dbClassField.getName();
+                String otherClassName = dbClassField.getOtherClassName();
+                result.append("\t\t\tLong " + fieldName + "Id = " + makeUncapital(className) + "CreateItem.get" + makeCapital(fieldName) + "Id();\n");
+                result.append("\t\t\tOptional<" + otherClassName + ">" + fieldName + "Optional = this." + makeUncapital(otherClassName) + "Repository.findById(" + fieldName + "Id);\n");
+                result.append("\t\t\tif (" + fieldName + "Optional.isPresent()) {\n");
+                result.append("\t\t\t\t" + otherClassName + " " + fieldName + " = " + fieldName + "Optional.get();\n");
+                result.append("\t\t\t\t" + makeUncapital(className) + ".set" + makeCapital(fieldName) + "(" + fieldName + ");\n");
+                result.append("\t\t\t}\n\n");
+            }
+        }
+        result.append("\t\t\tthis." + makeUncapital(className) + "Repository.save(" + makeUncapital(className) + ");\n");
+        result.append("\t\t\treturn true;\n");
+        result.append("\t\t} else {\n");
+        result.append("\t\t\treturn false;\n");
+        result.append("\t\t}\n");
+        result.append("\t}\n");
+
+        return result.toString();
+    }
+
     private static String createSaveMethod(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
         String className = dbClass.getName();
@@ -83,6 +117,7 @@ public class CreateServices {
         result.append(" = new " + className + "(" + makeUncapital(className + "CreateItem);\n\n"));
 
         //TODO megírni, mi van, ha ez lista!!!!!!!
+        //TODO UPDATE-ben is módosítani!!!!
 
         for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
             if (dbClassField.getType().equals("Other Class")) {
@@ -96,7 +131,6 @@ public class CreateServices {
                 result.append("\t\t}\n\n");
             }
         }
-
         result.append("\t\tthis." + makeUncapital(className) + "Repository.save(" + makeUncapital(className) + ");\n");
         result.append("\t}\n");
 
