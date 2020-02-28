@@ -97,7 +97,7 @@ public class CreateListItems {
         for (DBClassField dbClassField : dbClass.getListFieldList()) {
             if (dbClassField.getType().equals("Enum") && !dbClassField.isList()) {
                 result.append("\t\tthis." + dbClassField.getName() + " = ");
-                result.append(domainInstanceName + ".get" + dbClassField.getEnumName() + "().getDisplayName();\n");
+                result.append(domainInstanceName + ".get" + makeCapital(dbClassField.getName()) + "().getDisplayName();\n");
             } else if (dbClassField.getType().equals("Enum") && dbClassField.isList()) {
                 result.append("\t\tfor (" + dbClassField.getEnumName() + " " + makeUncapital(dbClassField.getEnumName()) + " : " + domainInstanceName + ".get" + makeCapital(dbClassField.getName() + "()) {\n"));
                 result.append("\t\t\tthis." + dbClassField.getName() + ".add(" + makeUncapital(dbClassField.getEnumName()) + ".getDisplayName());\n");

@@ -73,8 +73,16 @@ public class CreateCreateItems {
     private static String addImports(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
 
-        result.append("import java.util.ArrayList;\n" +
-                "import java.util.List;\n");
+        boolean isContainList = false;
+        for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
+            if (dbClassField.isList()) {
+                isContainList = true;
+            }
+        }
+        if (isContainList) {
+            result.append("import java.util.ArrayList;\n" +
+                    "import java.util.List;\n");
+        }
         result.append("\n");
         return result.toString();
     }
