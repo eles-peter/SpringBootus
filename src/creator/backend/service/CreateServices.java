@@ -48,7 +48,11 @@ public class CreateServices {
 
             writer.write(createSaveMethod(dbClass, databaseService) + "\n");
 
-            writer.write(createGetDetailItem(dbClass, databaseService) + "\n");
+            if (!dbClass.getDetailFieldList().isEmpty()) {
+                writer.write(createGetDetailItem(dbClass, databaseService) + "\n");
+            } else {
+                writer.write(createGetListItem(dbClass, databaseService) + "\n");
+            }
 
             writer.write(createUpdateMethod(dbClass, databaseService) + "\n");
 
@@ -75,6 +79,23 @@ public class CreateServices {
         result.append("\t\t} else {\n");
         result.append("\t\t\treturn false;\n");
         result.append("\t\t}\n");
+        result.append("\t}\n");
+
+        return result.toString();
+    }
+
+    private static String createGetListItem(DBClass dbClass, DatabaseService databaseService) {
+        StringBuilder result = new StringBuilder();
+        String className = dbClass.getName();
+        result.append("\tpublic " + className + "ListItem get" + className + "ListItem (Long id) {\n");
+        String instanceName = makeUncapital(className);
+        result.append("\t\t" + className + "ListItem " + instanceName + "ListItem = null;\n");
+        result.append("\t\t Optional<" + className + "> " + instanceName + "Optional = " + instanceName + "Repository.findById(id);\n");
+        result.append("\t\tif (" + instanceName + "Optional.isPresent()) {\n");
+        result.append("\t\t\t" + instanceName + "ListItem = new " + className + "ListItem(" + instanceName + "Optional.get());\n");
+        result.append("\t\t}\n");
+        result.append("\t\treturn " + instanceName + "ListItem;\n");
+
         result.append("\t}\n");
 
         return result.toString();

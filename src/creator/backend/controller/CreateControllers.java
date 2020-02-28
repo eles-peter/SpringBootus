@@ -44,7 +44,9 @@ public class CreateControllers {
 
             List<DBClassField> formDataFields = getFormDataClassFields(dbClass);
 
-            writer.write(createFormDataMethod(dbClass, formDataFields) + "\n");
+            if (!formDataFields.isEmpty()) {
+                writer.write(createFormDataMethod(dbClass, formDataFields) + "\n");
+            }
 
             writer.write(createSaveMethod(dbClass) + "\n");
 
@@ -54,7 +56,11 @@ public class CreateControllers {
 
             writer.write(createGetListMethod(dbClass) + "\n");
 
-            writer.write(createGetItemMethod(dbClass) + "\n");
+            if (!dbClass.getDetailFieldList().isEmpty()) {
+                writer.write(createGetDeatailItemMethod(dbClass) + "\n");
+            } else {
+                writer.write(createGetListItemMethod(dbClass) + "\n");
+            }
 
             writer.write("}\n");
 
@@ -63,7 +69,17 @@ public class CreateControllers {
         }
     }
 
-    private static String createGetItemMethod(DBClass dbClass) {
+    private static String createGetListItemMethod(DBClass dbClass) {
+        StringBuilder result = new StringBuilder();
+        String className = dbClass.getName();
+        result.append("\t@GetMapping(\"/{id}\")\n" +
+                "\tpublic ResponseEntity<" + className + "ListItem> get" + className + "(@PathVariable Long id) {\n" +
+                "\t\treturn new ResponseEntity<>(" + makeUncapital(className) + "Service.get" + className + "ListItem(id), HttpStatus.OK);\n" +
+                "\t}\n");
+        return result.toString();
+    }
+
+    private static String createGetDeatailItemMethod(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
         String className = dbClass.getName();
         result.append("\t@GetMapping(\"/{id}\")\n" +

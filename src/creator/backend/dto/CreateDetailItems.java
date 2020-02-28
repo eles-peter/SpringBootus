@@ -22,7 +22,10 @@ public class CreateDetailItems {
     public static void createDetailItems(DatabaseService databaseService) {
 
         for (DBClass dbClass : databaseService.getDbclasslist()) {
-            createDetailItem(dbClass, databaseService);
+
+            if (!dbClass.getDetailFieldList().isEmpty()) {
+                createDetailItem(dbClass, databaseService);
+            }
         }
 
     }
