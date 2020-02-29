@@ -1,6 +1,7 @@
 package creator;
 
 import static creator.utils.StringBuherator.makeSQLName;
+import static creator.utils.StringBuherator.makeSentence;
 
 public class Test {
 
@@ -14,10 +15,10 @@ public class Test {
 
         String test4 = "EzEgyMasikHulyeNevuString";
 
-        System.out.println(makeSQLName(test));
-        System.out.println(makeSQLName(test2));
-        System.out.println(makeSQLName(test3));
-        System.out.println(makeSQLName(test4));
+        System.out.println(makeSentence(test));
+        System.out.println(makeSentence(test2));
+        System.out.println(makeSentence(test3));
+        System.out.println(makeSentence(test4));
 
     }
 }

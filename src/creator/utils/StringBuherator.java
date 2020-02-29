@@ -42,6 +42,40 @@ public class StringBuherator {
         return result.toString();
     }
 
+    public static String makeSentence(String name) {
+        List<Integer> indexesOfUpperCase = new ArrayList<>();
+        for (int i = 0; i < name.length(); i++) {
+            char ch = name.charAt(i);
+            if (Character.isUpperCase(ch)) {
+                indexesOfUpperCase.add(i);
+            }
+        }
+        String lowerCasename = name.toLowerCase();
+        StringBuilder result = new StringBuilder();
+        if (indexesOfUpperCase.isEmpty() || (indexesOfUpperCase.size() == 1 && indexesOfUpperCase.get(0) == 0)) {
+            result.append(lowerCasename);
+        } else {
+            int previousIndex = 0;
+            for (int i = 0; i < indexesOfUpperCase.size(); i++) {
+                if (indexesOfUpperCase.get(i) == 0) {
+                    continue;
+                }
+                if (i == indexesOfUpperCase.size() - 1) {
+                    result.append(lowerCasename.substring(previousIndex, indexesOfUpperCase.get(i)));
+                    result.append(" ");
+                    result.append(lowerCasename.substring(indexesOfUpperCase.get(i)));
+                } else {
+                    result.append(lowerCasename.substring(previousIndex, indexesOfUpperCase.get(i)));
+                }
+                if (i != indexesOfUpperCase.size() - 1) {
+                    result.append(" ");
+                }
+                previousIndex = indexesOfUpperCase.get(i);
+            }
+        }
+        return makeCapital(result.toString());
+    }
+
     public static String makeEnumName(String name) {
         StringBuilder result = new StringBuilder();
         for (String word : name.split(" ")) {
