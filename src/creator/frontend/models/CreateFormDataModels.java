@@ -19,9 +19,15 @@ public class CreateFormDataModels {
 
     public static void createFormDataModels(DatabaseService databaseService) {
         for (DBClass dbClass : databaseService.getDbclasslist()) {
-            if (dbClass.getEnumNameSet().isEmpty() && dbClass.getOtherClassNameSet().isEmpty()) {
-
-            } else createFormDataModel(dbClass, databaseService);
+            boolean isContainsEnumOrOtherObject = false;
+            for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
+                if (dbClassField.getType().equals("Enum") || dbClassField.getType().equals("Other Class")) {
+                    isContainsEnumOrOtherObject = true;
+                }
+            }
+            if (isContainsEnumOrOtherObject) {
+                createFormDataModel(dbClass, databaseService);
+            }
         }
     }
 
