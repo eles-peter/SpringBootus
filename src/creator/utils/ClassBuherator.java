@@ -28,7 +28,7 @@ public class ClassBuherator {
         if (dbClassField.isList()) {
             result.append(" = new ArrayList<>()");
         }
-        result.append(";");
+        result.append(";\n");
         return result.toString();
     }
 

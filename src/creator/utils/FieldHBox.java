@@ -86,7 +86,7 @@ public class FieldHBox extends HBox {
 
     private void setTypeChoiceBox(ChoiceBox choiceBox) {
         //TODO ezt áttenni valahova (a lehetséges elem típusokat) most nagyon rossz helyen van
-        List<String> typeOption = new ArrayList<>(Arrays.asList("String", "Integer", "Long", "Double", "Boolean", "Date", "Enum", "Other Class", "Image URL", "Text URL"));
+        List<String> typeOption = new ArrayList<>(Arrays.asList("String", "Integer", "Long", "Double", "Boolean", "Date", "Enum", "Other Class", "Image URL", "Text Area"));
         choiceBox.getItems().addAll(typeOption);
         choiceBox.setValue(typeOption.get(0));
     }

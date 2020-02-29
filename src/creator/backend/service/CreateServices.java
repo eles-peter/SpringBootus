@@ -49,10 +49,12 @@ public class CreateServices {
             writer.write(createSaveMethod(dbClass, databaseService) + "\n");
 
             if (!dbClass.getDetailFieldList().isEmpty()) {
-                writer.write(createGetDetailItem(dbClass, databaseService) + "\n");
+                writer.write(createGetDetailItemMethod(dbClass, databaseService) + "\n");
             } else {
-                writer.write(createGetListItem(dbClass, databaseService) + "\n");
+                writer.write(createGetListItemMethod(dbClass, databaseService) + "\n");
             }
+
+            writer.write(createGetCreateItemMethod(dbClass, databaseService) + "\n");
 
             writer.write(createUpdateMethod(dbClass, databaseService) + "\n");
 
@@ -63,6 +65,23 @@ public class CreateServices {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String createGetCreateItemMethod(DBClass dbClass, DatabaseService databaseService) {
+        StringBuilder result = new StringBuilder();
+        String className = dbClass.getName();
+        result.append("\tpublic " + className + "CreateItem get" + className + "CreateItem (Long id) {\n");
+        String instanceName = makeUncapital(className);
+        result.append("\t\t" + className + "CreateItem " + instanceName + "CreateItem = null;\n");
+        result.append("\t\t Optional<" + className + "> " + instanceName + "Optional = " + instanceName + "Repository.findById(id);\n");
+        result.append("\t\tif (" + instanceName + "Optional.isPresent()) {\n");
+        result.append("\t\t\t" + instanceName + "CreateItem = new " + className + "CreateItem(" + instanceName + "Optional.get());\n");
+        result.append("\t\t}\n");
+        result.append("\t\treturn " + instanceName + "CreateItem;\n");
+
+        result.append("\t}\n");
+
+        return result.toString();
     }
 
     private static String createDeleteMethod(DBClass dbClass, DatabaseService databaseService) {
@@ -84,7 +103,7 @@ public class CreateServices {
         return result.toString();
     }
 
-    private static String createGetListItem(DBClass dbClass, DatabaseService databaseService) {
+    private static String createGetListItemMethod(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
         String className = dbClass.getName();
         result.append("\tpublic " + className + "ListItem get" + className + "ListItem (Long id) {\n");
@@ -101,7 +120,7 @@ public class CreateServices {
         return result.toString();
     }
 
-    private static String createGetDetailItem(DBClass dbClass, DatabaseService databaseService) {
+    private static String createGetDetailItemMethod(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
         String className = dbClass.getName();
         result.append("\tpublic " + className + "DetailItem get" + className + "DetailItem (Long id) {\n");

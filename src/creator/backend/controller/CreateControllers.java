@@ -62,11 +62,23 @@ public class CreateControllers {
                 writer.write(createGetListItemMethod(dbClass) + "\n");
             }
 
+            writer.write(createGetCreateItemForUpdate(dbClass) + "\n");
+
             writer.write("}\n");
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String createGetCreateItemForUpdate(DBClass dbClass) {
+        StringBuilder result = new StringBuilder();
+        String className = dbClass.getName();
+        result.append("\t@GetMapping(\"/formData/{id}\")\n" +
+                "\tpublic ResponseEntity<" + className + "CreateItem> get" + className + "ForUpdate(@PathVariable(name = \"id\") Long id) {\n" +
+                "\t\treturn new ResponseEntity<>(" + makeUncapital(className) + "Service.get" + className + "CreateItem(id), HttpStatus.OK);\n" +
+                "\t}\n");
+        return result.toString();
     }
 
     private static String createGetListItemMethod(DBClass dbClass) {

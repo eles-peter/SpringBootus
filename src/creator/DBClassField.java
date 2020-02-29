@@ -74,7 +74,7 @@ public class DBClassField {
             result = this.getEnumName();
         } else if (this.getType().equals("Other Class")) {
             result = this.getOtherClassName();
-        } else if (this.getType().equals("Image URL") || this.getType().equals("Text URL")) {
+        } else if (this.getType().equals("Image URL") || this.getType().equals("Text Area")) {
             result = "String";
         } else if (this.getType().equals("Date")) {
             result = "LocalDateTime";

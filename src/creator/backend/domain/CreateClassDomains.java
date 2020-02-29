@@ -119,16 +119,16 @@ public class CreateClassDomains {
         for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
             if (!dbClassField.getType().equals("Other Class")) {
                 result.append("\t\tthis." + dbClassField.getName() + " = ");
-            }
-            if (dbClassField.getType().equals("Enum") && !dbClassField.isList()) {
-                result.append(dbClassField.getEnumName() + ".valueOf(" + createItemName + ".get" + makeCapital(dbClassField.getName()) + "());\n");
-            } else if (dbClassField.getType().equals("Enum") && dbClassField.isList()) {
-                result.append(createItemName + ".get" + makeCapital(dbClassField.getName()) + "().stream()" +
-                        ".map(" + dbClassField.getEnumName() + "::valueOf)" +
-                        ".collect(Collectors.toList());\n");
 
-            } else if (!dbClassField.getType().equals("Other Class")) {
-                result.append(createItemName + ".get" + makeCapital(dbClassField.getName()) + "();\n");
+                if (dbClassField.getType().equals("Enum") && !dbClassField.isList()) {
+                    result.append(dbClassField.getEnumName() + ".valueOf(" + createItemName + ".get" + makeCapital(dbClassField.getName()) + "());\n");
+                } else if (dbClassField.getType().equals("Enum") && dbClassField.isList()) {
+                    result.append(createItemName + ".get" + makeCapital(dbClassField.getName()) + "().stream()" +
+                            ".map(" + dbClassField.getEnumName() + "::valueOf)" +
+                            ".collect(Collectors.toList());\n");
+                } else {
+                    result.append(createItemName + ".get" + makeCapital(dbClassField.getName()) + "();\n");
+                }
             }
         }
         result.append("\t}\n");

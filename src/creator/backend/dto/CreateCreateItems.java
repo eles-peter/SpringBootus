@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static creator.utils.ClassBuherator.*;
+import static creator.utils.StringBuherator.makeCapital;
+import static creator.utils.StringBuherator.makeUncapital;
 
 public class CreateCreateItems {
 
@@ -35,9 +37,6 @@ public class CreateCreateItems {
 
             //TODO átgondolni, enum vagy lista, vagy más objekt miatt kell-e valami!!!!
 
-            //TODO átgondolni "other Class"-t passzolgatni, vagy otherClass Id-jét
-            //TODO Enum-nak meg csak a nevét Strinben....
-
             List<DBClassField> modifiedCreateFieldList = new ArrayList<>();
             for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
                 DBClassField actualField = new DBClassField(dbClassField);
@@ -50,19 +49,16 @@ public class CreateCreateItems {
                 modifiedCreateFieldList.add(actualField);
             }
 
-            for (DBClassField dbClassField : modifiedCreateFieldList) {
-                writer.write(makeFieldLine(dbClassField) + "\n");
-            }
-            writer.write("\n");
+            writer.write(createFields(modifiedCreateFieldList) + "\n");
 
-            for (DBClassField dbClassField : modifiedCreateFieldList) {
-                writer.write(makeGetter(dbClassField) + "\n");
-            }
-            writer.write("\n");
+            writer.write(createEmptyConstructor(dbClass) + "\n");
 
-            for (DBClassField dbClassField : modifiedCreateFieldList) {
-                writer.write(makeSetter(dbClassField) + "\n");
-            }
+            writer.write(createConstructorFromDomain(dbClass) + "\n");
+
+            writer.write(createGetters(modifiedCreateFieldList) + "\n");
+
+            writer.write(createSetters(modifiedCreateFieldList) + "\n");
+
             writer.write("}\n");
 
         } catch (IOException e) {
@@ -70,8 +66,63 @@ public class CreateCreateItems {
         }
     }
 
+    private static String createConstructorFromDomain(DBClass dbClass) {
+        StringBuilder result = new StringBuilder();
+        String createItemClassName = dbClass.getName() + "CreateItem";
+        result.append("\tpublic " + createItemClassName + "(" + dbClass.getName() + " " + makeUncapital(dbClass.getName()) + ") {\n");
+        for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
+            if (!dbClassField.getType().equals("Other Class")) {
+                result.append("\t\tthis." + dbClassField.getName() + " = ");
+
+                if (dbClassField.getType().equals("Enum") && !dbClassField.isList()) {
+                    result.append(makeUncapital(dbClass.getName()) + ".get" + makeCapital(dbClassField.getName()) + "().name();\n");
+                } else if (dbClassField.getType().equals("Enum") && dbClassField.isList()) {
+                    result.append(makeUncapital(dbClass.getName()) + ".get" + makeCapital(dbClassField.getName()) + "().stream()" +
+                            ".map(Enum::name)" +
+                            ".collect(Collectors.toList());\n");
+                } else {
+                    result.append(makeUncapital(dbClass.getName()) + ".get" + makeCapital(dbClassField.getName()) + "();\n");
+                }
+            } else {
+                result.append("\t\tthis." + dbClassField.getName() + "Id = ");
+                result.append(makeUncapital(dbClass.getName() + ".get" + makeCapital(dbClassField.getName()) + "().getId();\n"));
+
+                //TODO megírni, ha otherclass és list!!!!
+            }
+        }
+        result.append("\t}\n");
+        return result.toString();
+    }
+
+    private static String createFields(List<DBClassField> modifiedCreateFieldList) {
+        StringBuilder result = new StringBuilder();
+        for (DBClassField dbClassField : modifiedCreateFieldList) {
+            result.append(makeFieldLine(dbClassField) + "\n");
+        }
+        return result.toString();
+    }
+
+    private static String createGetters(List<DBClassField> modifiedCreateFieldList) {
+        StringBuilder result = new StringBuilder();
+        for (DBClassField dbClassField : modifiedCreateFieldList) {
+            result.append(makeGetter(dbClassField) + "\n");
+        }
+        return result.toString();
+    }
+
+    private static String createSetters(List<DBClassField> modifiedCreateFieldList) {
+        StringBuilder result = new StringBuilder();
+        for (DBClassField dbClassField : modifiedCreateFieldList) {
+            result.append(makeSetter(dbClassField) + "\n");
+        }
+        return result.toString();
+    }
+
+
     private static String addImports(DBClass dbClass, DatabaseService databaseService) {
         StringBuilder result = new StringBuilder();
+
+        result.append("import " + databaseService.getProjectName() + ".domain." + dbClass.getName() + ";\n");
 
         boolean isContainList = false;
         for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
