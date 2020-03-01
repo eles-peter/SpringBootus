@@ -246,7 +246,6 @@ public class CreateFormComponentTypeScrypt {
                 } else {
                     result.append("\t\t\t\t'" + dbClassField.getName() + "Id': new FormArray([]),\n");
                 }
-
             }
         }
         result.append("\t\t\t}\n" +
