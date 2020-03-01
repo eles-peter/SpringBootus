@@ -25,60 +25,20 @@ public class CreateAppComponent {
 
         try (FileWriter writer = new FileWriter(file)) {
 
-            writer.write(addImports(databaseService) + "\n");
-
-            writer.write(addRoutes(databaseService) + "\n");
-
-            writer.write("@NgModule({\n" +
-                    "  imports: [RouterModule.forRoot(routes)],\n" +
-                    "  exports: [RouterModule]\n" +
+            writer.write("import { Component } from '@angular/core';\n" +
+                    "\n" +
+                    "@Component({\n" +
+                    "\tselector: 'app-root',\n" +
+                    "\ttemplateUrl: './app.component.html',\n" +
+                    "\tstyleUrls: ['./app.component.css']\n" +
                     "})\n" +
-                    "export class AppRoutingModule { }\n");
+                    "export class AppComponent {\n" +
+                    "\ttitle = 'angular-frontend';\n" +
+                    "}\n"); //TODO Mi az a title????
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private static String addRoutes(DatabaseService databaseService) {
-        StringBuilder result = new StringBuilder();
-        result.append("const routes: Routes = [\n");
-
-        for (DBClass dbClass : databaseService.getDbclasslist()) {
-            String className = dbClass.getName();
-            String instanceName = makeUncapital(className);
-            result.append("\t{path: '" + instanceName + "-list', component: " + className + "ListComponent},\n");
-            result.append("\t{path: '" + instanceName + "-form', component: " + className + "FormComponent},\n");
-            result.append("\t{path: '" + instanceName + "-form/:id', component: " + className + "FormComponent},\n");
-            if (!dbClass.getDetailFieldList().isEmpty()) {
-                result.append("\t{path: '" + instanceName + "-detail/:id', component: " + className + "DetailComponent},\t");
-            }
-        }
-        String firstClassNameUncapital = makeUncapital(databaseService.getDbclasslist().get(0).getName());
-        result.append("\t{path: '', redirectTo: '" + firstClassNameUncapital + "-list', pathMatch: 'full'},\n");
-        result.append("];\n");
-
-        return result.toString();
-    }
-
-    private static String addImports(DatabaseService databaseService) {
-        StringBuilder result = new StringBuilder();
-        result.append("import { NgModule } from '@angular/core';\n" +
-                "import { Routes, RouterModule } from '@angular/router';\n");
-
-        for (DBClass dbClass : databaseService.getDbclasslist()) {
-            String className = dbClass.getName();
-            String instanceName = makeUncapital(className);
-            result.append("import {" +className + "ListComponent} " +
-                    "from \"./components/" + instanceName + "-list/" + instanceName + "-list.component\";\n");
-            result.append("import {" + className + "FormComponent} from " +
-                    "\"./components/" + instanceName + "-form/" + instanceName + "-fomm.component\";");
-            if (!dbClass.getDetailFieldList().isEmpty()) {
-                result.append("import {" + className + "DetailComponent} " +
-                        "from \"./components/" + instanceName + "-detail/" + instanceName + "-detail.component\";\n");
-            }
-        }
-        return result.toString();
     }
 
     private static void createAppComponentHtml(DatabaseService databaseService) {
