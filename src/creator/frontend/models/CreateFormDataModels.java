@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static creator.utils.StringBuherator.makeCapital;
+import static creator.utils.StringBuherator.makeUncapital;
 
 public class CreateFormDataModels {
 
@@ -58,7 +59,7 @@ public class CreateFormDataModels {
                 result.append("\t" + dbClassField.getName() + ": ");
                 result.append(dbClassField.getEnumName() + "OptionModel[];\n");
             } else if (dbClassField.getType().equals("Other Class")) {
-                result.append("\t" + dbClassField.getName() + ": ");
+                result.append("\t" + makeUncapital(dbClassField.getOtherClassName()) + ": ");
                 result.append(dbClassField.getOtherClassName() + "ShortListItemModel[];\n");
             }
         }

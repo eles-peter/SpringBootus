@@ -21,6 +21,7 @@ import static creator.backend.exception.CreateExceptions.createExceptions;
 import static creator.backend.repository.CreateRepositories.createRepositories;
 import static creator.backend.service.CreateServices.createServices;
 import static creator.backend.validator.CreateValidators.createValidators;
+import static creator.frontend.app.CreateAppComponent.createAppComponent;
 import static creator.frontend.app.CreateAppModules.createAppModules;
 import static creator.frontend.components.CreateComponents.createComponents;
 import static creator.frontend.models.CreateModels.createModels;
@@ -68,7 +69,7 @@ public class MainController {
         createValidators(databaseService);
 
         createAppModules(databaseService);
-        createAppModules(databaseService);
+        createAppComponent(databaseService);
         createFrontendServices(databaseService);
         createModels(databaseService);
         createComponents(databaseService);

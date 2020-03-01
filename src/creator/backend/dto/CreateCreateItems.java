@@ -66,6 +66,13 @@ public class CreateCreateItems {
         }
     }
 
+    private static String createEmptyConstructor(DBClass dbClass) {
+        StringBuilder result = new StringBuilder();
+        result.append("\t" + dbClass.getName() + "CreateItem() {\n");
+        result.append("\t}\n");
+        return result.toString();
+    }
+
     private static String createConstructorFromDomain(DBClass dbClass) {
         StringBuilder result = new StringBuilder();
         String createItemClassName = dbClass.getName() + "CreateItem";
@@ -97,6 +104,9 @@ public class CreateCreateItems {
     private static String createFields(List<DBClassField> modifiedCreateFieldList) {
         StringBuilder result = new StringBuilder();
         for (DBClassField dbClassField : modifiedCreateFieldList) {
+            if (dbClassField.getType().equals("Date")) {
+                result.append("\t@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)\n");
+            }
             result.append(makeFieldLine(dbClassField) + "\n");
         }
         return result.toString();
@@ -125,14 +135,23 @@ public class CreateCreateItems {
         result.append("import " + databaseService.getProjectName() + ".domain." + dbClass.getName() + ";\n");
 
         boolean isContainList = false;
+        boolean isContainDate = false;
         for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
             if (dbClassField.isList()) {
                 isContainList = true;
             }
+            if (dbClassField.getType().equals("Date")) {
+                isContainDate = true;
+            }
         }
         if (isContainList) {
             result.append("import java.util.ArrayList;\n" +
-                    "import java.util.List;\n");
+                    "import java.util.List;\n" +
+                    "import java.util.stream.Collectors;\n");
+        }
+        if (isContainDate) {
+            result.append("import java.time.LocalDateTime;\n" +
+                    "import org.springframework.format.annotation.DateTimeFormat;\n");
         }
         result.append("\n");
         return result.toString();

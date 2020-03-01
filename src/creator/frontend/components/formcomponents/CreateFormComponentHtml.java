@@ -24,7 +24,7 @@ public class CreateFormComponentHtml {
         try (FileWriter writer = new FileWriter(file)) {
             writer.write("<h2>" + dbClass.getName() + " form</h2>\n" +
                     "<hr/>\n" +
-                    "<form [formGroup]=\"orcForm\">");
+                    "<form [formGroup]=\"" + makeUncapital(dbClass.getName()) + "Form\">");
 
             for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
                 if (!dbClassField.isList()) {
@@ -52,7 +52,7 @@ public class CreateFormComponentHtml {
                             break;
                         case "Date":
                             //TODO megírni Date-re!!!
-                            writer.write(createTextInput(dbClassField) + "\n");
+                            writer.write(createDateTimeInput(dbClassField) + "\n");
                             break;
                         default:
                             writer.write(createTextInput(dbClassField) + "\n");
@@ -75,6 +75,26 @@ public class CreateFormComponentHtml {
         }
     }
 
+    private static String createDateTimeInput(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        String fieldName = dbClassField.getName();
+        result.append("  <div class=\"form-group\">\n" +
+                "    <label for=\"" + fieldName + "\" class=\"form-control-label\">\n" +
+                "      " + makeSentence(fieldName) + ":\n" +
+                "    </label>\n" +
+                "    <input\n" +
+                "      type=\"datetime-local\"\n" +
+                "      id=\"" + fieldName + "\"\n" +
+                "      formControlName=\"" + fieldName + "\"\n" +
+                "      name=\"" + fieldName + "\"\n" +
+                "      placeholder=\"" + makeSentence(fieldName) + "\"\n" +
+                "      class=\"form-control\"\n" +
+                "    />\n" +
+                "  </div>\n");
+
+        return result.toString();
+    }
+
     private static String createCheckBoxInput(DBClassField dbClassField) {
         StringBuilder result = new StringBuilder();
         String fieldName = dbClassField.getName();
@@ -88,7 +108,7 @@ public class CreateFormComponentHtml {
                 "        {{ " + fieldName + ".displayName }}\n" +
                 "      </label>\n" +
                 "    </div>\n" +
-                "  </div>");
+                "  </div>\n");
 
         return result.toString();
     }
@@ -110,7 +130,7 @@ public class CreateFormComponentHtml {
                 "      <option *ngFor=\"let " + fieldName + " of " + makeUncapital(dbClassField.getEnumName()) + "Option, let i = index\"\n" +
                 "              value=\"{{" + fieldName + ".name}}\"> {{" + fieldName + ".displayName}} </option>\n" +
                 "    </select>\n" +
-                "  </div>");
+                "  </div>\n");
 
 
         return result.toString();
@@ -140,7 +160,7 @@ public class CreateFormComponentHtml {
                 } //TODO megcsinálni rendesen kötőjellel leválasztva vagy mi...
                 result.append("</option>\n" +
                         "    </select>\n" +
-                        "  </div>");
+                        "  </div>\n");
             }
         }
         return result.toString();

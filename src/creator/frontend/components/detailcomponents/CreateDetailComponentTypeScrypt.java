@@ -16,7 +16,7 @@ public class CreateDetailComponentTypeScrypt {
 
     public static void createDetailComponentTypeScrypt(DBClass dbClass, DatabaseService databaseService) {
 
-        String dirName = makeUncapital(dbClass.getName()) + "-form";
+        String dirName = makeUncapital(dbClass.getName()) + "-detail";
         File file = new File(databaseService.getFrontendAppDirectory() + "\\components\\" + dirName + "\\" + dirName + ".component.ts");
 
         try (FileWriter writer = new FileWriter(file)) {
@@ -36,8 +36,7 @@ public class CreateDetailComponentTypeScrypt {
                     "\n" +
                     "  ngOnInit(): void {\n" +
                     "  }\n" +
-                    "\n" +
-                    "}\n");
+                    "\n");
 
             writer.write("}\n");
 

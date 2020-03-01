@@ -21,7 +21,7 @@ public class CreateAppModules {
     }
 
     private static void createAppRoutingModule(DatabaseService databaseService) {
-        File file = new File(databaseService.getFrontendAppDirectory() + "app-routing.module.ts");
+        File file = new File(databaseService.getFrontendAppDirectory() + "\\app-routing.module.ts");
 
         try (FileWriter writer = new FileWriter(file)) {
 
@@ -41,7 +41,7 @@ public class CreateAppModules {
     }
 
     private static void createAppModule(DatabaseService databaseService) {
-        File file = new File(databaseService.getFrontendAppDirectory() + "app-routing.module.ts");
+        File file = new File(databaseService.getFrontendAppDirectory() + "\\app.module.ts");
 
         try (FileWriter writer = new FileWriter(file)) {
 
@@ -109,7 +109,7 @@ public class CreateAppModules {
             result.append("\t{path: '" + instanceName + "-form', component: " + className + "FormComponent},\n");
             result.append("\t{path: '" + instanceName + "-form/:id', component: " + className + "FormComponent},\n");
             if (!dbClass.getDetailFieldList().isEmpty()) {
-                result.append("\t{path: '" + instanceName + "-detail/:id', component: " + className + "DetailComponent},\t");
+                result.append("\t{path: '" + instanceName + "-detail/:id', component: " + className + "DetailComponent},\n");
             }
         }
         String firstClassNameUncapital = makeUncapital(databaseService.getDbclasslist().get(0).getName());
@@ -137,7 +137,7 @@ public class CreateAppModules {
             result.append("import {" +className + "ListComponent} " +
                     "from \"./components/" + instanceName + "-list/" + instanceName + "-list.component\";\n");
             result.append("import {" + className + "FormComponent} from " +
-                    "\"./components/" + instanceName + "-form/" + instanceName + "-fomm.component\";");
+                    "\"./components/" + instanceName + "-form/" + instanceName + "-form.component\";\n");
             if (!dbClass.getDetailFieldList().isEmpty()) {
                 result.append("import {" + className + "DetailComponent} " +
                         "from \"./components/" + instanceName + "-detail/" + instanceName + "-detail.component\";\n");

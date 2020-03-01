@@ -148,6 +148,7 @@ public class CreateShortListItems {
         Set<String> shortListEnumSet = new HashSet<>();
         Set<String> shortListOtherClassNameSet = new HashSet<>();
         Boolean isListInShortList = false;
+        boolean isContainDate = false;
         for (DBClassField dbClassField : dbClass.getShortListFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
                 shortListEnumSet.add(dbClassField.getEnumName());
@@ -156,6 +157,9 @@ public class CreateShortListItems {
             }
             if (dbClassField.isList()) {
                 isListInShortList = true;
+            }
+            if (dbClassField.getType().equals("Date")) {
+                isContainDate = true;
             }
         }
         for (String enumName : shortListEnumSet) {
@@ -167,6 +171,9 @@ public class CreateShortListItems {
         if (isListInShortList) {
             result.append("import java.util.ArrayList;\n" +
                     "import java.util.List;\n");
+        }
+        if (isContainDate) {
+            result.append("import java.time.LocalDateTime;\n");
         }
         return result.toString();
     }

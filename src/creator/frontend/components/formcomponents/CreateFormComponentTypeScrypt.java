@@ -87,7 +87,7 @@ public class CreateFormComponentTypeScrypt {
         String instanceName = makeUncapital(className);        result.append("\tprivate create" + makeCapital(dbClassField.getName()) + "CheckboxControl() {\n");
         result.append("\t\tthis." + makeUncapital(dbClassField.getEnumName()) + "Option.forEach(() => {\n");
         result.append("\t\t\t\tconst control = new FormControl(false);\n");
-        result.append("\t\t\t\t(this." + className + "Form.controls." + dbClassField.getName() + " as FormArray).push(control);\n");
+        result.append("\t\t\t\t(this." + instanceName + "Form.controls." + dbClassField.getName() + " as FormArray).push(control);\n");
         result.append("\t\t\t}\n" +
                 "\t\t);\n" +
                 "\t}\n");
@@ -102,12 +102,14 @@ public class CreateFormComponentTypeScrypt {
         result.append("\tget" + className + "CreateData = (id: string) => {\n");
         result.append("\t\tthis." + instanceName + "Service." + instanceName + "ForUpdate(id).subscribe(\n");
         result.append("\t\t\t(response: " + className + "CreateItemModel) => {\n");
-        result.append("\t\t\t\tthis.orcForm.patchValue({\n");
+        result.append("\t\t\t\tthis." + instanceName + "Form.patchValue({\n");
         for (DBClassField dbClassField : dbClass.getCreateFieldList()) {
-            if (!(dbClassField.getType().equals("Enum") && dbClassField.isList())) {
-                result.append("\t\t\t\t\t" + dbClassField.getName() + ": response." + dbClassField.getName() + ",\n");
-            } else {
+            if (dbClassField.getType().equals("Enum") && dbClassField.isList()) {
                 result.append("\t\t\t\t\t" + dbClassField.getName() + ": this.create" + makeCapital(dbClassField.getName()) + "FormArray(response." + dbClassField.getName() + "),\n");
+            } else if (dbClassField.getType().equals("Other Class")) {
+                result.append("\t\t\t\t\t" + dbClassField.getName() + "Id: response." + dbClassField.getName() + "Id,\n");
+            } else {
+                result.append("\t\t\t\t\t" + dbClassField.getName() + ": response." + dbClassField.getName() + ",\n");
             }
             //TODO megírni, Other Class listára is!!!!
         }

@@ -17,11 +17,11 @@ public class CreateAppComponent {
     public static void createAppComponent(DatabaseService databaseService) {
         createAppComponentCss(databaseService);
         createAppComponentHtml(databaseService);
-        createAppComponentTypeScrypt(databaseService);
+//        createAppComponentTypeScrypt(databaseService); //EHHEZ ELMÉLETILEG NEM KELL NYÚLNI!
     }
 
     private static void createAppComponentTypeScrypt(DatabaseService databaseService) {
-        File file = new File(databaseService.getFrontendAppDirectory() + "app.component.ts");
+        File file = new File(databaseService.getFrontendAppDirectory() + "\\app.component.ts");
 
         try (FileWriter writer = new FileWriter(file)) {
 
@@ -42,7 +42,7 @@ public class CreateAppComponent {
     }
 
     private static void createAppComponentHtml(DatabaseService databaseService) {
-        File file = new File(databaseService.getFrontendAppDirectory() + "app.component.html");
+        File file = new File(databaseService.getFrontendAppDirectory() + "\\app.component.html");
 
         try (FileWriter writer = new FileWriter(file)) {
 
@@ -57,7 +57,7 @@ public class CreateAppComponent {
     }
 
     private static void createAppComponentCss(DatabaseService databaseService) {
-        File file = new File(databaseService.getFrontendAppDirectory() + "app.component.css");
+        File file = new File(databaseService.getFrontendAppDirectory() + "\\app.component.css");
 
         try (FileWriter writer = new FileWriter(file)) {
 

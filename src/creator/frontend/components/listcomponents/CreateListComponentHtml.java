@@ -84,9 +84,9 @@ public class CreateListComponentHtml {
             result.append("\t\t\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"" + instanceName + "Detail(" + instanceName + ".id)\">details</button>\n");
             result.append("\t\t\t\t</div>\n");
         }
-        result.append("\t\t\t\t<div class=\"btn-group\">qn");
-        result.append("\t\t\t\t\t<button class=\"btn btn-secondary btn-sm\" (click)=\"updateOrc(orc.id)\">&nbsp;&nbsp;edit&nbsp;&nbsp;</button>\n");
-        result.append("\t\t\t\t\t<button class=\"btn btn-danger btn-sm\" (click)=\"deleteOrc(orc.id)\">delete</button>\n");
+        result.append("\t\t\t\t<div class=\"btn-group\">\n");
+        result.append("\t\t\t\t\t<button class=\"btn btn-secondary btn-sm\" (click)=\"update" + className + "(" + instanceName + ".id)\">&nbsp;&nbsp;edit&nbsp;&nbsp;</button>\n");
+        result.append("\t\t\t\t\t<button class=\"btn btn-danger btn-sm\" (click)=\"delete" + className + "(" + instanceName + ".id)\">delete</button>\n");
         result.append("\t\t\t\t</div>\n");
         result.append("\t\t\t</div>\n");
         result.append("\t\t</td>\n");
@@ -145,8 +145,9 @@ public class CreateListComponentHtml {
             result.append(makeSentence(dbClassField.getName()));
             result.append("</th>\n");
         }
+        result.append("\t\t<th></th>\n");
         result.append("\t</tr>\n" +
-                "\t</thead>");
+                "\t</thead>\n");
 
         return result.toString();
     }

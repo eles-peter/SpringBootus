@@ -111,7 +111,7 @@ public class CreateListComponentTypeScrypt {
         String className = dbClass.getName();
         String instanceName = makeUncapital(className);
         result.append("\tdelete" + className + "(id: number): void {\n" +
-                "\t\tthis." + instanceName + "Service.delete" + instanceName + "(id).subscribe(\n" +
+                "\t\tthis." + instanceName + "Service.delete" + className + "(id).subscribe(\n" +
                 "\t\t\t(response: " + className + "ListItemModel[]) => {\n" +
                 "\t\t\t\tthis." + instanceName + "List = response;\n" +
                 "\t\t\t},\n" +
@@ -128,7 +128,7 @@ public class CreateListComponentTypeScrypt {
         String instanceName = makeUncapital(className);
         result.append("\tlist" + className + " = () => {\n" +
                 "\t\tthis." + instanceName + "Service.list" + className + "().subscribe(\n" +
-                "\t\t\t(orcList: OrcListItemModel[]) => {\n" +
+                "\t\t\t(" + instanceName + "List: " + className + "ListItemModel[]) => {\n" +
                 "\t\t\t\tthis." + instanceName + "List = " + instanceName + "List;\n" +
                 "\t\t\t}\n" +
                 "\t\t);\n" +
@@ -174,7 +174,7 @@ public class CreateListComponentTypeScrypt {
                 "  templateUrl: './" + instanceName + "-list.component.html',\n" +
                 "  styleUrls: ['./" + instanceName + "-list.component.css']\n" +
                 "})\n" +
-                "export class " + className + "ListComponent implements OnInit {");
+                "export class " + className + "ListComponent implements OnInit {\n");
 
         return result.toString();
     }

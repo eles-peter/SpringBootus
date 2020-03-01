@@ -153,6 +153,7 @@ public class CreateDetailItems {
         Set<String> listEnumSet = new HashSet<>();
         Set<String> listOtherClassNameSet = new HashSet<>();
         Boolean isListInList = false;
+        boolean isContainDate = false;
         for (DBClassField dbClassField : dbClass.getDetailFieldList()) {
             if (dbClassField.getType().equals("Enum")) {
                 listEnumSet.add(dbClassField.getEnumName());
@@ -161,6 +162,9 @@ public class CreateDetailItems {
             }
             if (dbClassField.isList()) {
                 isListInList = true;
+            }
+            if (dbClassField.getType().equals("Date")) {
+                isContainDate = true;
             }
         }
         for (String enumName : listEnumSet) {
@@ -172,6 +176,9 @@ public class CreateDetailItems {
         if (isListInList) {
             result.append("import java.util.ArrayList;\n" +
                     "import java.util.List;\n");
+        }
+        if (isContainDate) {
+            result.append("import java.time.LocalDateTime;\n");
         }
         return result.toString();
     }

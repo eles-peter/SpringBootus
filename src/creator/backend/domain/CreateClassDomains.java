@@ -68,12 +68,16 @@ public class CreateClassDomains {
 
         boolean isContainsList = false;
         boolean isContainsEnumList = false;
+        boolean isContainDate = false;
         for (DBClassField dbClassField : dbClass.getFieldList()) {
             if (dbClassField.isList()) {
                 isContainsList = true;
                 if (dbClassField.getType().equals("Enum")) {
                     isContainsEnumList = true;
                 }
+            }
+            if (dbClassField.getType().equals("Date")) {
+                isContainDate = true;
             }
         }
         if (isContainsList) {
@@ -82,6 +86,9 @@ public class CreateClassDomains {
         }
         if (isContainsEnumList) {
             result.append("import java.util.stream.Collectors;\n");
+        }
+        if (isContainDate) {
+            result.append("import java.time.LocalDateTime;\n");
         }
         result.append("\n");
         return result.toString();
