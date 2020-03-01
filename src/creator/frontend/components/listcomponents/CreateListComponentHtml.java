@@ -28,7 +28,7 @@ public class CreateListComponentHtml {
 
             writer.write(createTableHead(dbClass) + "\n");
 
-            writer.write(createTableBody(dbClass, databaseService) + "\n");
+            writer.write(createTableBody(dbClass, databaseService));
 
             writer.write("</table>\n");
 
@@ -56,19 +56,45 @@ public class CreateListComponentHtml {
                         }
                     }
                 }
-            } else if (dbClassField.getType().equals("Other Class")) {
+            } else if (dbClassField.getType().equals("Image URL")) {
                 result.append(
-                        createImageItem(instanceName, dbClassField, dbClass));
+                        createImageItem(instanceName, dbClassField));
             } else {
                 result.append("\t\t<td>");
                 result.append("{{ " + instanceName + "." + dbClassField.getName() + " }}");
                 result.append("</td>\n");
             }
         }
+
+        result.append(createButtonGroup(dbClass));
+        result.append("\t</tr>\n");
+        result.append("\t</tbody>\n");
+
         return result.toString();
     }
 
-    private static String createImageItem(String instanceName, DBClassField dbClassField, DBClass dbClass) {
+    private static String createButtonGroup(DBClass dbClass) {
+        StringBuilder result = new StringBuilder();
+        String className = dbClass.getName();
+        String instanceName = makeUncapital(className);
+        result.append("\t\t<td>\n");
+        result.append("\t\t\t<div class=\"btn-toolbar\" role=\"toolbar\">\n");
+        if (!dbClass.getDetailFieldList().isEmpty()) {
+            result.append("\t\t\t\t<div class=\"btn-group mr-4\">\n");
+            result.append("\t\t\t\t<button class=\"btn btn-primary btn-sm\" (click)=\"" + instanceName + "Detail(" + instanceName + ".id)\">details</button>\n");
+            result.append("\t\t\t\t</div>\n");
+        }
+        result.append("\t\t\t\t<div class=\"btn-group\">qn");
+        result.append("\t\t\t\t\t<button class=\"btn btn-secondary btn-sm\" (click)=\"updateOrc(orc.id)\">&nbsp;&nbsp;edit&nbsp;&nbsp;</button>\n");
+        result.append("\t\t\t\t\t<button class=\"btn btn-danger btn-sm\" (click)=\"deleteOrc(orc.id)\">delete</button>\n");
+        result.append("\t\t\t\t</div>\n");
+        result.append("\t\t\t</div>\n");
+        result.append("\t\t</td>\n");
+
+        return result.toString();
+    }
+
+    private static String createImageItem(String instanceName, DBClassField dbClassField) {
         StringBuilder result = new StringBuilder();
         result.append("\t\t<td>");
         result.append("<img [src]=\"" + instanceName + "." + dbClassField.getName() + "\" alt=\"\" height=100 width=100></img>");
