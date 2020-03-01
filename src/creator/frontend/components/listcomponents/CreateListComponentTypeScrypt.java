@@ -46,7 +46,6 @@ public class CreateListComponentTypeScrypt {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static String createGoToOtherClassMethod(DBClass dbClass, DatabaseService databaseService) {

@@ -49,7 +49,7 @@ public class CreateCreateItemModels {
             }
             result.append(": ");
             switch (dbClassField.getType()) {
-                case "string":
+                case "String":
                 case "Enum":
                 case "Image URL":
                 case "Text Area":
