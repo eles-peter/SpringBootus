@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static creator.utils.StringBuherator.makeCapital;
 import static creator.utils.StringBuherator.makeUncapital;
 
 public class CreateNavbar {
