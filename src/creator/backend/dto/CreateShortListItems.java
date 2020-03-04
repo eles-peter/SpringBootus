@@ -135,6 +135,9 @@ public class CreateShortListItems {
                 result.append(makeFieldLineTypeAsString(dbClassField));
             } else if (dbClassField.getType().equals("Other Class")) {
                 result.append(makeFieldLineTypeAsShortListItem(dbClassField));
+            } else if (dbClassField.getType().equals("Date Time")) {
+                result.append("\t@JsonFormat(pattern = \"yyyy-MM-dd-EE''HH:mm\")\n");
+                result.append(makeFieldLine(dbClassField));
             } else {
                 result.append(makeFieldLine(dbClassField) + "\n");
             }
@@ -158,7 +161,7 @@ public class CreateShortListItems {
             if (dbClassField.isList()) {
                 isListInShortList = true;
             }
-            if (dbClassField.getType().equals("Date")) {
+            if (dbClassField.getType().equals("Date Time")) {
                 isContainDate = true;
             }
         }
@@ -173,7 +176,8 @@ public class CreateShortListItems {
                     "import java.util.List;\n");
         }
         if (isContainDate) {
-            result.append("import java.time.LocalDateTime;\n");
+            result.append("import java.time.LocalDateTime;\n" +
+                    "import org.springframework.format.annotation.DateTimeFormat;\n");
         }
         return result.toString();
     }

@@ -76,7 +76,7 @@ public class DBClassField {
             result = this.getOtherClassName();
         } else if (this.getType().equals("Image URL") || this.getType().equals("Text Area")) {
             result = "String";
-        } else if (this.getType().equals("Date")) {
+        } else if (this.getType().equals("Date Time")) {
             result = "LocalDateTime";
         } else {
             result = this.getType();

@@ -34,7 +34,7 @@ public class CreateFormComponentHtml {
                             writer.write(createTextInput(dbClassField) + "\n");
                             break;
                         case "Text Area":
-                            //TODO megírni!!!
+                            writer.write(createTextArea(dbClassField) + "\n");
                             break;
                         case "Integer":
                         case "Long":
@@ -50,8 +50,7 @@ public class CreateFormComponentHtml {
                         case "Boolean":
                             //TODO megírni!!!
                             break;
-                        case "Date":
-                            //TODO megírni Date-re!!!
+                        case "Date Time":
                             writer.write(createDateTimeInput(dbClassField) + "\n");
                             break;
                         default:
@@ -184,6 +183,29 @@ public class CreateFormComponentHtml {
 
         return result.toString();
     }
+
+    private static String createTextArea(DBClassField dbClassField) {
+        StringBuilder result = new StringBuilder();
+        String fieldName = dbClassField.getName();
+        result.append("  <div class=\"form-group\">\n" +
+                "    <label for=\"" + fieldName + "\" class=\"form-control-label\">\n" +
+                "      " + makeSentence(fieldName) + ":\n" +
+                "    </label>\n" +
+                "    <textarea\n" +
+                "      rows=\"10\"\n" +
+                "      type=\"text\"\n" +
+                "      id=\"" + fieldName + "\"\n" +
+                "      formControlName=\"" + fieldName + "\"\n" +
+                "      name=\"" + fieldName + "\"\n" +
+                "      placeholder=\"" + makeSentence(fieldName) + "\"\n" +
+                "      class=\"form-control\"\n" +
+                "    >\n" +
+                "    </textarea>" +
+                "  </div>\n");
+
+        return result.toString();
+    }
+
 
     private static String createTextInput(DBClassField dbClassField) {
         StringBuilder result = new StringBuilder();

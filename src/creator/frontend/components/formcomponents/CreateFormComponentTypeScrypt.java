@@ -236,7 +236,7 @@ public class CreateFormComponentTypeScrypt {
                     case "Boolean":
                         result.append("\t\t\t\t'" + dbClassField.getName() + "': new FormControl(false),\n");
                         break;
-                    case "Date":
+                    case "Date Time":
                         result.append("\t\t\t\t'" + dbClassField.getName() + "': new FormControl(Date()),\n");
                         break;
                     default:

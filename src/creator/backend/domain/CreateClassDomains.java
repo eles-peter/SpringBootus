@@ -76,7 +76,7 @@ public class CreateClassDomains {
                     isContainsEnumList = true;
                 }
             }
-            if (dbClassField.getType().equals("Date")) {
+            if (dbClassField.getType().equals("Date Time")) {
                 isContainDate = true;
             }
         }
@@ -112,6 +112,8 @@ public class CreateClassDomains {
                     "    @ElementCollection(targetClass = " + dbClassField.getEnumName() + ".class, fetch = FetchType.EAGER)\n" +
                     "    @CollectionTable(name = \"" + dbClass.getSQLName() + "_" + dbClassField.getSQLName() + "\")\n" +
                     "    @Column(name = \"" + dbClass.getSQLName() + "_" + dbClassField.getSQLName() + "\")\n");
+        } else if (dbClassField.getType().equals("Text Area")) {
+            result.append("    @Column(name = \"" + dbClassField.getSQLName() + "\", columnDefinition = \"TEXT\")\n");
         } else {
             result.append("    @Column(name = \"" + dbClassField.getSQLName() + "\")\n");
         }

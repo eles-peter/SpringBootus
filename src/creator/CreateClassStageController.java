@@ -15,6 +15,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -87,7 +88,12 @@ public class CreateClassStageController {
         createDBEnumStage.setScene(new Scene(enumPane, 300, 500));
         okButton.setOnAction(event -> {
             String[] enumValueArray = enumValues.getText().split("\n");
-            List<String> enumValueList = Arrays.asList(enumValueArray);
+            List<String> enumValueList = new ArrayList<>();
+            for (String enumValue : enumValueArray) {
+                if (!enumValue.isBlank()) {
+                    enumValueList.add(enumValue);
+                }
+            }
             this.databaseService.addEnum(new DBEnum(enumName, enumValueList));
             databaseService.setIsChanged(true);
             createDBEnumStage.close();

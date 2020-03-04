@@ -104,7 +104,7 @@ public class CreateCreateItems {
     private static String createFields(List<DBClassField> modifiedCreateFieldList) {
         StringBuilder result = new StringBuilder();
         for (DBClassField dbClassField : modifiedCreateFieldList) {
-            if (dbClassField.getType().equals("Date")) {
+            if (dbClassField.getType().equals("Date Time")) {
                 result.append("\t@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)\n");
             }
             result.append(makeFieldLine(dbClassField) + "\n");
@@ -140,7 +140,7 @@ public class CreateCreateItems {
             if (dbClassField.isList()) {
                 isContainList = true;
             }
-            if (dbClassField.getType().equals("Date")) {
+            if (dbClassField.getType().equals("Date Time")) {
                 isContainDate = true;
             }
         }

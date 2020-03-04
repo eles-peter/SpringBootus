@@ -82,7 +82,7 @@ public class CreateListItemModels {
                 case "Boolean":
                     result.append("boolean");
                     break;
-                case "Date":
+                case "Date Time":
                     result.append("Date");
                     break;
                 default:

@@ -13,7 +13,7 @@
    <children>
       <VBox layoutX="183.0" layoutY="32.0" prefHeight="200.0" prefWidth="100.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Label text="Project Name:" />
+            <Label text="Project Package Name:" />
             <TextField fx:id="projectNameInput" />
             <Label text="Backend Application Directory:" />
             <TextField fx:id="backendApplicationDirectoryInput" />

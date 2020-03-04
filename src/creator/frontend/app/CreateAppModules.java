@@ -76,7 +76,7 @@ public class CreateAppModules {
             result.append("\t\t" + dbClass.getName() + "FormComponent,\n");
             result.append("\t\t" + dbClass.getName() + "ListComponent,\n");
             if (!dbClass.getDetailFieldList().isEmpty()) {
-                result.append("\t\t" + dbClass.getName() + "DetailComponent,");
+                result.append("\t\t" + dbClass.getName() + "DetailComponent,\n");
             }
         }
         result.append("\t],\n");
