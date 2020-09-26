@@ -51,9 +51,9 @@ With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for prede
 
 **backend/**
 - config
-  - SpringWebConfig.java
+  - SpringWebConfig.java *(CORS policy)*
 - controller
-  - `Example`Controller.java
+  - `Example`Controller.java *
 - domain
   - `Example`.java
   - `SampleEnum`.java
@@ -76,6 +76,13 @@ With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for prede
   - `Example`Validator.java
 - `ProjectName`Application.java *(override)*
   
-
+**\* HTTP requests handled by the controller:**
+- `@GetMapping("/formData")`
+- `@PostMapping`
+- `@PutMapping("/{id}")`
+- `@DeleteMapping("/{id}")`
+- `@GetMapping`
+- `@GetMapping("/{id}")`
+- `@GetMapping("/formData/{id}")`
 
 
