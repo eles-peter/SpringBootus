@@ -79,11 +79,11 @@ With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for prede
 └── "ProjectName"Application.java (override)
 ``` 
 **\* HTTP requests handled by the controller:**
-- `@GetMapping("/formData")`
-- `@PostMapping`
-- `@PutMapping("/{id}")`
-- `@DeleteMapping("/{id}")`
-- `@GetMapping`
-- `@GetMapping("/{id}")`
-- `@GetMapping("/formData/{id}")`
+- `@GetMapping("/formData")` Preliminary data required to create the item (predefined selectable values)
+- `@PostMapping` Create a new item
+- `@PutMapping("/{id}")` Update the item with the specified id
+- `@DeleteMapping("/{id}")` Delete the item with the specified id
+- `@GetMapping` Get list of existing items
+- `@GetMapping("/{id}")` Get details of the items with the specified id
+- `@GetMapping("/formData/{id}")` Preliminary data required to modify the element 
 
