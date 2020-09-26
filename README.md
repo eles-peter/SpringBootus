@@ -22,27 +22,27 @@ With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for prede
     - navbar.component.css
     - navbar.component.html
     - navbar.component.ts
-  - example-detail *(details of the selected item)*
-    - example-detail.component.css
-    - example-detail.component.html
-    - example-detail.component.ts
-  - example-form *(for create and update item)*
-    - example-form.component.css
-    - example-form.component.html
-    - example-form.component.ts
-  - example-list *(items list view)*
-    - example-list.component.css
-    - example-list.component.html
-    - example-list.component.ts
+  - `example`-detail *(details of the selected item)*
+    - `example`-detail.component.css
+    - `example`-detail.component.html
+    - `example`-detail.component.ts
+  - `example`-form *(for create and update item)*
+    - `example`-form.component.css
+    - `example`-form.component.html
+    - `example`-form.component.ts
+  - `example`-list *(items list view)*
+    - `example`-list.component.css
+    - `example`-list.component.html
+    - `example`-list.component.ts
 - models
-  - ExampleCreateItem.model.ts
-  - ExampleDetailItem.model.ts
-  - ExampleFormData.model.ts *(if Class have Enum field)*
-  - ExampleListItem.model.ts
-  - ExampleShortListItem.model.ts *(if Class is a filed in the other Class)*
-  - SampleEnumOption.model.ts
+  - `Example`CreateItem.model.ts
+  - `Example`DetailItem.model.ts
+  - `Example`FormData.model.ts *(if Class have Enum field)*
+  - `Example`ListItem.model.ts
+  - `Example`ShortListItem.model.ts *(if Class is a filed in the other Class)*
+  - `SampleEnum`Option.model.ts
 - services
-  - Example.service.ts
+  - `Example`.service.ts
 - app.component.css *(override)*
 - app.component.html *(override)*
 - app.component.ts *(override)*
