@@ -21,18 +21,15 @@ Create Angular frontend and Java11/SpringBoot backend based on a given domain st
 
 ## How it works
 
-<p align="center">
+
 <img src="readme-image/start.PNG">
-<p>
-<p align="center">
+
 <img src="readme-image/CreateClass.PNG">
-<p>
-<p align="center">
-<img src="readme-image/CreateEnum.PNG">
-<p>
-<p align="center">
+
+<img src="readme-image/CreateEnum.png">
+
 <img src="readme-image/finish.PNG">
-<p>
+
 
 ## Generated files and directories:
 With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for predefined values )
@@ -100,13 +97,13 @@ With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for prede
 └── "ProjectName"Application.java (override)
 ``` 
 **\* HTTP requests handled by the controller:**
-- `@GetMapping("/formData")` Preliminary data required to create the item (predefined selectable values)
+- `@GetMapping("/formData")` Preliminary data required to create a new item (predefined selectable values)
 - `@PostMapping` Create a new item
 - `@PutMapping("/{id}")` Update the item with the specified id
 - `@DeleteMapping("/{id}")` Delete the item with the specified id
 - `@GetMapping` Get list of existing items
 - `@GetMapping("/{id}")` Get details of the items with the specified id
-- `@GetMapping("/formData/{id}")` Preliminary data required to modify the element 
+- `@GetMapping("/formData/{id}")` Preliminary data required to modify the item (with the specified id)
 
 
 
