@@ -19,6 +19,21 @@ Create Angular frontend and Java11/SpringBoot backend based on a given domain st
 **for the frontend:**
 - New empty `angular-frontend` project with `app-routing`, installed `bootstrap` and `jquery`.
 
+## How it works
+
+<p align="center">
+<img src="readme-image/start.PNG">
+<p>
+<p align="center">
+<img src="readme-image/CreateClass.PNG">
+<p>
+<p align="center">
+<img src="readme-image/CreateEnum.PNG">
+<p>
+<p align="center">
+<img src="readme-image/finish.PNG">
+<p>
+
 ## Generated files and directories:
 With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for predefined values )
 
