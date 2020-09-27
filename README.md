@@ -20,7 +20,7 @@ Create Angular frontend and Java11/SpringBoot backend based on a given domain st
 - New empty `angular-frontend` project with `app-routing`, installed `bootstrap` and `jquery`.
 
 ## How it works
-**1.** You must first enter the name of the Java package, the absolute path to the backend application directory, and the fronend app directory.<br><br>
+**1.** You must first enter the name of the Java package, the absolute path to the backend application directory, and the frontend app directory.<br><br>
 <img src="readme-image/start.PNG" width="500">
 
 **2.** And then you need to create the domain classes.<br><br>
