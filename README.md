@@ -68,12 +68,12 @@ With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for prede
 ├── app.module.ts (override)
 └── app-routing.module.ts (override)
 ```
-- **backend/**
+- **backend/ \***
 ```
 ├── config
 │   └── SpringWebConfig.java (CORS policy)
 ├── controller
-│   └── ExampleController.java *
+│   └── ExampleController.java **
 ├── domain
 │   ├── Example.java
 │   └── SampleEnum.java
@@ -95,15 +95,18 @@ With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for prede
 ├── validator (this function under construction!)
 │   └── ExampleValidator.java
 └── "ProjectName"Application.java (override)
-``` 
-**\* HTTP requests handled by the controller:**
+```
+**\* Controller-Service-Repository model:**<br>
+The program generates a simplified `Controller`-`Service`-`Repository` model without any interfaces or any mappers. Mapping between DTO and Domain objects takes place in the DTO and Domain constructor (depending on the direction).
+
+**\*\* HTTP requests handled by the controller:**
 - `@GetMapping("/formData")` Preliminary data required to create a new item (predefined selectable values)
 - `@PostMapping` Create a new item
 - `@PutMapping("/{id}")` Update the item with the specified id
 - `@DeleteMapping("/{id}")` Delete the item with the specified id
 - `@GetMapping` Get list of existing items
 - `@GetMapping("/{id}")` Get details of the items with the specified id
-- `@GetMapping("/formData/{id}")` Preliminary data required to modify the item (with the specified id)
+- `@GetMapping("/formData/{id}")` Preliminary data required to modify/update the item (with the specified id)
 
 
 
