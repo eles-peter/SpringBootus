@@ -39,7 +39,11 @@ Create Angular frontend and Java11/SpringBoot backend based on a given domain st
   - `Text Area` Longer, more lines of text
 - `other Class/Enum Name:` If you chose Enum or Other Class, you can enter the class name here.
 - `toMany:` Check to create a OneToMany or ManyToOne relationship. Leave unchecked if you want a OneToOne relationship.
-- `Field Name in the other Class:` Use for OneToMany relationship (in the class where the field is a list). The name of the linked ("mappedBy") field in the other class must be specified.
+- `Field Name in the other Class:` Use for OneToMany relationship (in the class where the field is a list). The name of the linked ("mappedBy") field in the other class.
+- `CI/CreateItem:` Check if you want to specify the field when creating the class instance/item. (This field will be included in the CreateItem DTO.)
+- `DI/DetailItem:` Check the field if you want to see the field data in the item's detailed view. (This field will be included in the DetailItem DTO.)
+- `LI/ListItem:` Check the field if you want to see the field data in the item list view. (This field will be included in the ListItem DTO.)
+- `SLI/ShortListItem:` Fields that will appear when the class appears in another class. If there is one. (This field will be included in the ShortListItem DTO.)
 
 **3.** If you specified an enum when creating the class, you must define the enum display names (as you would like them to appear on the page).<br><br>
 <img src="readme-image/CreateEnum.png" width="300">
