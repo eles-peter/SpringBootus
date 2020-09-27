@@ -29,7 +29,7 @@ Create Angular frontend and Java11/SpringBoot backend based on a given domain st
 - `Field Name:` Name of the class field. The `id` field is generated automatically.
 - `List:` Check it if you want to use this field as a list. E.g if more than one item can be selected from predefined values (Enum List) or for a OneToMany relationship.
 - `Field Type:` Type of the field. You can choose from the following (under construction):
-  - `String` Short, one line text
+  - `String` Short, one line text (max. 255 characters)
   - `Integer` `Long` `Double` Numbers
   - `Boolean` Boolean (True or False)
   - `Date Time` Date (year, month, day)
