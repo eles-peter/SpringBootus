@@ -21,16 +21,16 @@ Create Angular frontend and Java11/SpringBoot backend based on a given domain st
 
 ## How it works
 **1.** You must first enter the name of the Java package, the absolute path to the backend application directory, and the fronend app directory.<br><br>
-<img src="readme-image/start.PNG">
+<img src="readme-image/start.PNG" width="500">
 
 **2.** And then you need to create the domain classes.<br><br>
 <img src="readme-image/CreateClass.PNG">
 
-**3.** If you specified an enum when creating the class, you must define the enum display names.<br><br>
-<img src="readme-image/CreateEnum.png">
+**3.** If you specified an enum when creating the class, you must define the enum display names (as you would like them to appear on the page).<br><br>
+<img src="readme-image/CreateEnum.png" width="300">
 
 **4.** And done, that's it!<br><br>
-<img src="readme-image/finish.PNG">
+<img src="readme-image/finish.PNG" width="500">
 
 
 ## Generated files and directories:
