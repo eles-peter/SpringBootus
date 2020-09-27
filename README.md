@@ -25,6 +25,21 @@ Create Angular frontend and Java11/SpringBoot backend based on a given domain st
 
 **2.** And then you need to create the domain classes.<br><br>
 <img src="readme-image/CreateClass.PNG">
+- `Class Name:` Name of the domain class
+- `Field Name:` Name of the class field. The `id` field is generated automatically.
+- `List:` Check it if you want to use this field as a list. E.g if more than one item can be selected from predefined values (Enum List) or for a OneToMany relationship.
+- `Field Type:` Type of the field. You can choose from the following (under construction):
+  - `String` Short, one line text
+  - `Integer` `Long` `Double` Numbers
+  - `Boolean` Boolean (True or False)
+  - `Date Time` Date (year, month, day)
+  - `Enum` Use enums for predefined values.
+  - `Other Class` Use this for a OneToOne, OneToMany and ManyToOne relation.
+  - `Image URL` The URL of the image to display on the page.
+  - `Text Area` Longer, more lines of text
+- `other Class/Enum Name:` If you chose Enum or Other Class, you can enter the class name here.
+- `toMany:` Check to create a OneToMany or ManyToOne relationship. Leave unchecked if you want a OneToOne relationship.
+- `Field Name in the other Class:` Use for OneToMany relationship (in the class where the field is a list). The name of the linked ("mappedBy") field in the other class must be specified.
 
 **3.** If you specified an enum when creating the class, you must define the enum display names (as you would like them to appear on the page).<br><br>
 <img src="readme-image/CreateEnum.png" width="300">
