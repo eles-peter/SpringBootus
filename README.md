@@ -55,41 +55,7 @@ Create Angular frontend and Java11/SpringBoot backend based on a given domain st
 ## Generated files and directories:
 With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for predefined values )
 
-- **frontend/src/app/**
-```
-├── components
-│   ├── navbar
-│   │   ├── navbar.component.css (navbar component)
-│   │   ├── navbar.component.html
-│   │   └── navbar.component.ts
-│   ├── example-detail (component with details of the selected item)
-│   │   ├── example-detail.component.css
-│   │   ├── example-detail.component.html
-│   │   └── example-detail.component.ts
-│   ├── example-form (component for create and update item)
-│   │   ├── example-form.component.css
-│   │   ├── example-form.component.html
-│   │   └── example-form.component.ts
-│   └── example-list (component with items list view)
-│       ├── example-list.component.css
-│       ├── example-list.component.html
-│       └── example-list.component.ts
-├── models
-│   ├── ExampleCreateItem.model.ts
-│   ├── ExampleDetailItem.model.ts
-│   ├── ExampleFormData.model.ts (if Class has Enum field)
-│   ├── ExampleListItem.model.ts
-│   ├── ExampleShortListItem.model.ts (if Class is a filed in the other Class)
-│   └── SampleEnumOption.model.ts
-├── services
-│   └── Example.service.ts
-├── app.component.css (override)
-├── app.component.html (override)
-├── app.component.ts (override)
-├── app.module.ts (override)
-└── app-routing.module.ts (override)
-```
-- **backend/ \***
+**backend/ \***
 ```
 ├── config
 │   └── SpringWebConfig.java (CORS policy)
@@ -129,5 +95,48 @@ The program generates a simplified `Controller`-`Service`-`Repository` model wit
 - `@GetMapping("/{id}")` Get details of the items with the specified id
 - `@GetMapping("/formData/{id}")` Preliminary data required to modify/update the item (with the specified id)
 
+**frontend/src/app/**
+```
+├── components ***
+│   ├── navbar
+│   │   ├── navbar.component.css (navbar component)
+│   │   ├── navbar.component.html
+│   │   └── navbar.component.ts
+│   ├── example-detail (detail-component)
+│   │   ├── example-detail.component.css
+│   │   ├── example-detail.component.html
+│   │   └── example-detail.component.ts
+│   ├── example-form (form-component)
+│   │   ├── example-form.component.css
+│   │   ├── example-form.component.html
+│   │   └── example-form.component.ts
+│   └── example-list (list-component)
+│       ├── example-list.component.css
+│       ├── example-list.component.html
+│       └── example-list.component.ts
+├── models
+│   ├── ExampleCreateItem.model.ts
+│   ├── ExampleDetailItem.model.ts
+│   ├── ExampleFormData.model.ts (if Class has Enum field)
+│   ├── ExampleListItem.model.ts
+│   ├── ExampleShortListItem.model.ts (if Class is a filed in the other Class)
+│   └── SampleEnumOption.model.ts
+├── services
+│   └── Example.service.ts
+├── app.component.css (override)
+├── app.component.html (override)
+├── app.component.ts (override)
+├── app.module.ts (override)
+└── app-routing.module.ts (override)
+```
+**\*\*\* Created angular components**
+- form-component (with navbar component) for create and update items<br>
+<img src="readme-image/form_component_filled.PNG" width="840">
+
+- list-component  (with navbar component) with item list view<br>
+<img src="readme-image/list_component.PNG" width="840">
+
+- detail-component  (with navbar component) with details of item<br>
+<img src="readme-image/detail_component.PNG" width="840">
 
 
