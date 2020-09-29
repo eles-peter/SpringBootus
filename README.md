@@ -20,19 +20,37 @@ Create Angular frontend and Java11/SpringBoot backend based on a given domain st
 - New empty `angular-frontend` project with `app-routing`, installed `bootstrap` and `jquery`.
 
 ## How it works
+**1.** You must first enter the name of the Java package, the absolute path to the backend application directory, and the frontend app directory.<br><br>
+<img src="readme-image/start.PNG" width="500">
 
-<p align="center">
-<img src="readme-image/start.PNG">
-<p>
-<p align="center">
+**2.** And then you need to create the domain classes.<br><br>
 <img src="readme-image/CreateClass.PNG">
-<p>
-<p align="center">
-<img src="readme-image/CreateEnum.PNG">
-<p>
-<p align="center">
-<img src="readme-image/finish.PNG">
-<p>
+- `Class Name:` Name of the domain class
+- `Field Name:` Name of the class field. The `id` field is generated automatically.
+- `List:` Check it if you want to use this field as a list. E.g if more than one item can be selected from predefined values (Enum List) or for a OneToMany relationship.
+- `Field Type:` Type of the field. You can choose from the following (under construction):
+  - `String` Short, one line text (max. 255 characters)
+  - `Integer` `Long` `Double` Numbers
+  - `Boolean` Boolean (True or False)
+  - `Date Time` Date (year, month, day)
+  - `Enum` Use enums for predefined values.
+  - `Other Class` Use this for a OneToOne, OneToMany and ManyToOne relation.
+  - `Image URL` The URL of the image to display on the page.
+  - `Text Area` Longer, more lines of text
+- `other Class/Enum Name:` If you chose Enum or Other Class, you can enter the class name here.
+- `toMany:` Check to create a OneToMany or ManyToOne relationship. Leave unchecked if you want a OneToOne relationship.
+- `Field Name in the other Class:` Use for OneToMany relationship (in the class where the field is a list). The name of the linked ("mappedBy") field in the other class.
+- `CI/CreateItem:` Check if you want to specify the field when creating the class instance/item. (This field will be included in the CreateItem DTO.)
+- `DI/DetailItem:` Check the field if you want to see the field data in the item's detailed view. (This field will be included in the DetailItem DTO.)
+- `LI/ListItem:` Check the field if you want to see the field data in the item list view. (This field will be included in the ListItem DTO.)
+- `SLI/ShortListItem:` Fields that will appear when the class appears in another class. If there is one. (This field will be included in the ShortListItem DTO.)
+
+**3.** If you specified an enum when creating the class, you must define the enum display names (as you would like them to appear on the page).<br><br>
+<img src="readme-image/CreateEnum.png" width="300">
+
+**4.** And done, that's it!<br><br>
+<img src="readme-image/finish.PNG" width="500">
+
 
 ## Generated files and directories:
 With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for predefined values )
@@ -71,12 +89,12 @@ With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for prede
 ├── app.module.ts (override)
 └── app-routing.module.ts (override)
 ```
-- **backend/**
+- **backend/ \***
 ```
 ├── config
 │   └── SpringWebConfig.java (CORS policy)
 ├── controller
-│   └── ExampleController.java *
+│   └── ExampleController.java **
 ├── domain
 │   ├── Example.java
 │   └── SampleEnum.java
@@ -98,15 +116,18 @@ With `Example` Domain Class and `SampleEnum` Enum Class ( we use enums for prede
 ├── validator (this function under construction!)
 │   └── ExampleValidator.java
 └── "ProjectName"Application.java (override)
-``` 
-**\* HTTP requests handled by the controller:**
-- `@GetMapping("/formData")` Preliminary data required to create the item (predefined selectable values)
+```
+**\* Controller-Service-Repository model:**<br>
+The program generates a simplified `Controller`-`Service`-`Repository` model without any interfaces or any mappers. Mapping between DTO and Domain objects takes place in the DTO and Domain constructor (depending on the direction).
+
+**\*\* HTTP requests handled by the controller:**
+- `@GetMapping("/formData")` Preliminary data required to create a new item (predefined selectable values)
 - `@PostMapping` Create a new item
 - `@PutMapping("/{id}")` Update the item with the specified id
 - `@DeleteMapping("/{id}")` Delete the item with the specified id
 - `@GetMapping` Get list of existing items
 - `@GetMapping("/{id}")` Get details of the items with the specified id
-- `@GetMapping("/formData/{id}")` Preliminary data required to modify the element 
+- `@GetMapping("/formData/{id}")` Preliminary data required to modify/update the item (with the specified id)
 
 
 
