@@ -1,6 +1,7 @@
 HELP.md
 target/
-.out/
+out/
+null/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -45,3 +46,4 @@ build/
 *.zip
 *.tar.gz
 *.rar
+
